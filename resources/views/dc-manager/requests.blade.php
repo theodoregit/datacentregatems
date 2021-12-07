@@ -222,7 +222,7 @@
                             @elseif($request->is_confirmed == 1 && $request->is_approved == 1)
                               <strong style="color: green"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Granted</strong>
                             @elseif($request->is_confirmed == 0 && $request->is_denied == 1)
-                              <strong style="color: red;"><i class="fa fa-ban" aria-hidden="true"></i> Denied</strong>
+                              <strong style="color: #ffa07a;"><i class="fa fa-ban" aria-hidden="true"></i> Denied</strong>
                             @endif
                           </td>
                           <td>
