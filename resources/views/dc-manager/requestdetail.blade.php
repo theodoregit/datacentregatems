@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
   <link href="../../img/logo/cbe_logo.PNG" rel="icon">
   <title>Data Centre Gate Management System - CBE</title>
   <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -140,10 +141,15 @@
                   Settings
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item"
+                  data-toggle="modal"
+                  href="{{ route('logout') }}"
+                  onclick="event.preventDefault();
+                  document.getElementById('logout-form').submit();">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
               </div>
             </li>
           </ul>
@@ -162,10 +168,7 @@
           </div>
 
           <div class="row">
-            <div class="col-md-1">
-              
-            </div>
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <ul class="list-group list-group-horizontal-md" style="float: right;">
                     <li class="list-group-item">
                         @if($request->is_confirmed == 0 && $request->is_denied == 0)
@@ -264,11 +267,6 @@
                     </tbody>
                 </table>              
             </div>
-            
-            <div class="col-md-1">
-
-            </div>
-
             <!-- Confirmation modal -->
             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

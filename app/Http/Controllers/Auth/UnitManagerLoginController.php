@@ -18,11 +18,11 @@ class UnitManagerLoginController extends Controller
         //validate
         $this->validate($request, [
             'email' => 'required|email',
-            'password' => 'required|min:6'
+            'password' => 'required|min:6',
         ]);
 
         //attempt to login
-        if(Auth::guard('unit-manager')->attempt(['email'=>$request->email, 'password'=>$request->password], $request->remember)){
+        if(Auth::guard('unit-manager')->attempt(['email'=>$request->email, 'password'=>$request->password, 'is_active'=>1], $request->remember)){
             return redirect()->intended('unit-manager/request-form-is');
         }
         else{

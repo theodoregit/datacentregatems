@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
   <link href="img/logo/cbe_logo.PNG" rel="icon">
   <title>Data Centre Gate Management System - CBE</title>
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -47,6 +48,7 @@
             <a class="collapse-item" href="{{route('dc-manager-account')}}">Data Centre Manager</a>
             <a class="collapse-item" href="{{route('inf-manager-account')}}">Infratructure Manager</a>
             <a class="collapse-item" href="{{route('dc-admin-account')}}">Data Center Admin</a>
+            <a class="collapse-item" href="{{route('dc-reception-account')}}">Data Center Reception</a>
           </div>
         </div>
       </li>
@@ -64,54 +66,6 @@
           </div>
         </div>
       </li>
-      <!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTable" aria-expanded="true"
-          aria-controls="collapseTable">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Tables</span>
-        </a>
-        <div id="collapseTable" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Tables</h6>
-            <a class="collapse-item" href="simple-tables.html">Simple Tables</a>
-            <a class="collapse-item" href="datatables.html">DataTables</a>
-          </div>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="ui-colors.html">
-          <i class="fas fa-fw fa-palette"></i>
-          <span>UI Colors</span>
-        </a>
-      </li>
-      <hr class="sidebar-divider">
-      <div class="sidebar-heading">
-        Examples
-      </div>
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePage" aria-expanded="true"
-          aria-controls="collapsePage">
-          <i class="fas fa-fw fa-columns"></i>
-          <span>Pages</span>
-        </a>
-        <div id="collapsePage" class="collapse" aria-labelledby="headingPage" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Example Pages</h6>
-            <a class="collapse-item" href="login.html">Login</a>
-            <a class="collapse-item" href="register.html">Register</a>
-            <a class="collapse-item" href="404.html">404 Page</a>
-            <a class="collapse-item" href="blank.html">Blank Page</a>
-          </div>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Charts</span>
-        </a>
-      </li>
-      <hr class="sidebar-divider">
-      <div class="version" id="version-ruangadmin"></div> -->
     </ul>
     <!-- Sidebar -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -131,7 +85,7 @@
                 aria-labelledby="searchDropdown">
                 <form class="navbar-search">
                   <div class="input-group">
-                    <input type="text" class="form-control bg-light border-1 small" placeholder="What do you want to look for?"
+                    <input type="text" class="form-control bg-light border-1 small" placeholder="search here ..."
                       aria-label="Search" aria-describedby="basic-addon2" style="border-color: #9106bb;">
                     <div class="input-group-append">
                       <button class="btn btn-primary" type="button">
@@ -146,7 +100,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-fw"></i>
-                <span class="badge badge-danger badge-counter">3+</span>
+                <!-- <span class="badge badge-danger badge-counter">3+</span> -->
               </a>
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="alertsDropdown">
@@ -160,8 +114,6 @@
                     </div>
                   </div>
                   <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
-                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
                   </div>
                 </a>
                 <a class="dropdown-item d-flex align-items-center" href="#">
@@ -171,8 +123,6 @@
                     </div>
                   </div>
                   <div>
-                    <div class="small text-gray-500">December 7, 2019</div>
-                    $290.29 has been deposited into your account!
                   </div>
                 </a>
                 <a class="dropdown-item d-flex align-items-center" href="#">
@@ -182,96 +132,18 @@
                     </div>
                   </div>
                   <div>
-                    <div class="small text-gray-500">December 2, 2019</div>
-                    Spending Alert: We've noticed unusually high spending for your account.
                   </div>
                 </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                <a class="dropdown-item text-center small text-gray-500" href="#"></a>
               </div>
             </li>
-            <!-- <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
+            <li class="nav-item dropdown no-arrow mx-1">
+              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
-                <span class="badge badge-warning badge-counter">2</span>
+                <i class="fas fa-moon fa-fw"></i>
+                <!-- <span class="badge badge-danger badge-counter">3+</span> -->
               </a>
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="messagesDropdown">
-                <h6 class="dropdown-header">
-                  Message Center
-                </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="img/man.png" style="max-width: 60px" alt="">
-                    <div class="status-indicator bg-success"></div>
-                  </div>
-                  <div class="font-weight-bold">
-                    <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been
-                      having.</div>
-                    <div class="small text-gray-500">Udin Cilok · 58m</div>
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="img/girl.png" style="max-width: 60px" alt="">
-                    <div class="status-indicator bg-default"></div>
-                  </div>
-                  <div>
-                    <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people
-                      say this to all dogs, even if they aren't good...</div>
-                    <div class="small text-gray-500">Jaenab · 2w</div>
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-              </div>
-            </li> -->
-            <!-- <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-tasks fa-fw"></i>
-                <span class="badge badge-success badge-counter">3</span>
-              </a>
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="messagesDropdown">
-                <h6 class="dropdown-header">
-                  Task
-                </h6>
-                <a class="dropdown-item align-items-center" href="#">
-                  <div class="mb-3">
-                    <div class="small text-gray-500">Design Button
-                      <div class="small float-right"><b>50%</b></div>
-                    </div>
-                    <div class="progress" style="height: 12px;">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                </a>
-                <a class="dropdown-item align-items-center" href="#">
-                  <div class="mb-3">
-                    <div class="small text-gray-500">Make Beautiful Transitions
-                      <div class="small float-right"><b>30%</b></div>
-                    </div>
-                    <div class="progress" style="height: 12px;">
-                      <div class="progress-bar bg-warning" role="progressbar" style="width: 30%" aria-valuenow="30"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                </a>
-                <a class="dropdown-item align-items-center" href="#">
-                  <div class="mb-3">
-                    <div class="small text-gray-500">Create Pie Chart
-                      <div class="small float-right"><b>75%</b></div>
-                    </div>
-                    <div class="progress" style="height: 12px;">
-                      <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="75"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">View All Taks</a>
-              </div>
-            </li> -->
+            </li>
             <div class="topbar-divider d-none d-sm-block"></div>
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
@@ -280,7 +152,7 @@
                 <span class="ml-2 d-none d-lg-inline text-white small">{{Auth::user()->name}}</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{{route('admin.profile')}}">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Profile
                 </a>
@@ -289,12 +161,18 @@
                   Settings
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item"
+                  data-toggle="modal"
+                  href="{{ route('logout') }}"
+                  onclick="event.preventDefault();
+                  document.getElementById('logout-form').submit();">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
               </div>
             </li>
+            <!-- <div class="topbar-divider d-none d-sm-block"></div> -->            
           </ul>
         </nav>
         <!-- Topbar -->
@@ -421,7 +299,7 @@
             <div class="col-xl-4 col-lg-5">
               <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold" style="color: #460d46">Most Requests</h6>
+                  <h6 class="m-0 font-weight-bold" style="color: #460d46">Requests per Unit</h6>
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle btn btn-sm" href="#" role="button" id="dropdownMenuLink"
                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #460d46">
@@ -500,7 +378,75 @@
               </div>
             </div>
           </div>
+          <!-- Tabs navs -->
+          <!-- <ul class="nav nav-tabs nav-justified mb-3" id="ex1" role="tablist">
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link active"
+                id="ex3-tab-1"
+                data-mdb-toggle="tab"
+                href="#ex3-tabs-1"
+                role="tab"
+                aria-controls="ex3-tabs-1"
+                aria-selected="true"
+                >Link</a
+              >
+            </li>
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link"
+                id="ex3-tab-2"
+                data-mdb-toggle="tab"
+                href="#ex3-tabs-2"
+                role="tab"
+                aria-controls="ex3-tabs-2"
+                aria-selected="false"
+                >Very very very very long link</a
+              >
+            </li>
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link"
+                id="ex3-tab-3"
+                data-mdb-toggle="tab"
+                href="#ex3-tabs-3"
+                role="tab"
+                aria-controls="ex3-tabs-3"
+                aria-selected="false"
+                >Another link</a
+              >
+            </li>
+          </ul> -->
+          <!-- Tabs navs -->
 
+          <!-- Tabs content -->
+          <!-- <div class="tab-content" id="ex2-content">
+            <div
+              class="tab-pane fade show active"
+              id="ex3-tabs-1"
+              role="tabpanel"
+              aria-labelledby="ex3-tab-1"
+            >
+              Tab 1 content
+            </div>
+            <div
+              class="tab-pane fade"
+              id="ex3-tabs-2"
+              role="tabpanel"
+              aria-labelledby="ex3-tab-2"
+            >
+              Tab 2 content
+            </div>
+            <div
+              class="tab-pane fade"
+              id="ex3-tabs-3"
+              role="tabpanel"
+              aria-labelledby="ex3-tab-3"
+            >
+              Tab 3 content
+            </div>
+          </div> -->
+          <!-- Tabs content -->
           <!-- Modal Logout -->
           <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
             aria-hidden="true">
@@ -550,7 +496,7 @@
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
   <script src="js/ruang-admin.min.js"></script>
   <script src="vendor/chart.js/Chart.min.js"></script>
-  <script src="js/demo/chart-area-demo.js"></script>  
+  <script src="js/demo/chart-area-demo.js"></script>
 </body>
 
 </html>

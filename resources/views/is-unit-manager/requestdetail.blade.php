@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
   <link href="../../img/logo/cbe_logo.PNG" rel="icon">
   <title>Data Centre Gate Management System - CBE</title>
   <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -142,10 +143,15 @@
                   Settings
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item"
+                  data-toggle="modal"
+                  href="{{ route('logout') }}"
+                  onclick="event.preventDefault();
+                  document.getElementById('logout-form').submit();">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
               </div>
             </li>
           </ul>
@@ -186,7 +192,7 @@
                       <tr>
                           <td>{{$request->fullname}}</td>
                           <td>{{$request->id_number}}</td>
-                          <td>{{$request->phone_number}}</td>
+                          <td>+251-{{$request->phone_number}}</td>
                       </tr>
                   </tbody>
                   <thead class="thead-dark">

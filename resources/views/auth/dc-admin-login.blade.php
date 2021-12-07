@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
   <link href="../img/logo/cbe_logo.PNG" rel="icon">
   <title>Data Centre Gate Management System - CBE</title>
   <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

@@ -19,6 +19,7 @@ class CreateUnitManagerAuthsTable extends Migration
             $table->string('email', 250)->unique();
             $table->string('unit');
             $table->string('password');
+            $table->boolean('is_active')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });

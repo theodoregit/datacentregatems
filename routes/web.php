@@ -7,18 +7,26 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::prefix('/')->group(function(){
+    Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('unit-manager-account', 'AccountsController@unitManager')->name('unit-manager-account');
-Route::post('unit-manager-account', 'AccountsController@createUnitManager')->name('unit-manager-account.submit');
-Route::get('dc-manager-account', 'AccountsController@dcManager')->name('dc-manager-account');
-Route::post('dc-manager-account', 'AccountsController@createDcManager')->name('dc-manager-account.submit');
-Route::get('inf-manager-account', 'AccountsController@infManager')->name('inf-manager-account');
-Route::post('inf-manager-account', 'AccountsController@createInfManager')->name('inf-manager-account.submit');
-Route::get('dc-admin-account', 'AccountsController@dcAdmin')->name('dc-admin-account');
-Route::post('dc-admin-account', 'AccountsController@createDcAdmin')->name('dc-admin-account.submit');
-Route::get('reset-password', 'ManageAccountController@resetPassword')->name('reset-password');
-Route::get('remove-account', 'ManageAccountController@removeAccount')->name('remove-account');
+    Route::get('unit-manager-account', 'AccountsController@unitManager')->name('unit-manager-account');
+    Route::post('unit-manager-account', 'AccountsController@createUnitManager')->name('unit-manager-account.submit');
+    Route::get('dc-manager-account', 'AccountsController@dcManager')->name('dc-manager-account');
+    Route::post('dc-manager-account', 'AccountsController@createDcManager')->name('dc-manager-account.submit');
+    Route::get('inf-manager-account', 'AccountsController@infManager')->name('inf-manager-account');
+    Route::post('inf-manager-account', 'AccountsController@createInfManager')->name('inf-manager-account.submit');
+    Route::get('dc-admin-account', 'AccountsController@dcAdmin')->name('dc-admin-account');
+    Route::post('dc-admin-account', 'AccountsController@createDcAdmin')->name('dc-admin-account.submit');
+    Route::get('dc-reception-account', 'AccountsController@dcReception')->name('dc-reception-account');
+    Route::post('dc-reception-account', 'AccountsController@createDcReception')->name('dc-reception-account.submit');
+    Route::get('reset-password', 'ManageAccountController@resetPassword')->name('reset-password');
+    Route::get('remove-account', 'ManageAccountController@removeAccount')->name('remove-account');
+    Route::post('suspend-account', 'AccountsController@suspendAccount')->name('admin.suspend-account');
+    Route::post('restore-account', 'AccountsController@restoreAccount')->name('admin.restore-account');
+    Route::get('profile', 'AdminController@myProfile')->name('admin.profile');
+});
+
 
 
 //unit manager
@@ -65,6 +73,15 @@ Route::prefix('dc-admin')->group(function(){
     Route::post('/login', 'Auth\DCAdminLoginController@login')->name('dc-admin.login.submit');
     Route::get('/approved-requests', 'DCAdminsController@requests')->name('approved-requests');
     Route::get('/request-form-dc-admin', 'DCAdminsController@requestForm')->name('request-form-dc-admin');
+    Route::get('/all-requests/{requestno}', 'DCAdminsController@requestDetails')->name('dc-admin-request-details');
+});
+
+//dc reception
+Route::prefix('dc-reception')->group(function(){
+    Route::get('/login', 'Auth\DCReceptionLoginController@showLoginForm')->name('dc-reception.login');
+    Route::post('/login', 'Auth\DCReceptionLoginController@login')->name('dc-reception.login.submit');
+    Route::get('/approved-requests', 'DCReceptionController@requests')->name('dc-reception.approved-requests');
+    Route::get('/all-requests/{requestno}', 'DCReceptionController@requestDetails')->name('dc-reception-request-details');
 });
 
 

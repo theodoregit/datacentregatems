@@ -104,12 +104,12 @@ class InfManagerController extends Controller
     }
 
     public function approveRequest(Request $request){
-        $approve = AccessRequests::where('requestno', $request->is_approved)->update(['is_approved' => 1]);
+        $approve = AccessRequests::where('requestno', $request->is_approved)->update(['is_approved' => 1, 'status' => 'approved']);
         return redirect()->back();
     }
 
     public function rejectRequest(Request $request){
-        $deny = AccessRequests::where('requestno', $request->is_rejected)->update(['is_rejected' => 1, 'rejection_reason' => $request->rejection_reason]);
+        $deny = AccessRequests::where('requestno', $request->is_rejected)->update(['is_rejected' => 1, 'status' => 'rejected', 'rejection_reason' => $request->rejection_reason]);
         return redirect()->back();
     }
 }

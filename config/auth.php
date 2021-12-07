@@ -84,6 +84,15 @@ return [
             'driver' => 'token',
             'provider' => 'dc_admin',
         ],
+        'dc-reception' => [
+            'driver' => 'session',
+            'provider' => 'dc_reception',
+        ],
+
+        'dc-reception-api' => [
+            'driver' => 'token',
+            'provider' => 'dc_reception',
+        ],
     ],
 
     /*
@@ -127,6 +136,11 @@ return [
         'dc_admin' => [
             'driver' => 'eloquent',
             'model' => App\DCAdminAuth::class,
+        ],
+
+        'dc_reception' => [
+            'driver' => 'eloquent',
+            'model' => App\DCReceptionAuth::class,
         ],
 
         // 'users' => [
@@ -177,6 +191,12 @@ return [
 
         'dc-admin' => [
             'provider' => 'dc_admin',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+
+        'dc-reception' => [
+            'provider' => 'dc_reception',
             'table' => 'password_resets',
             'expire' => 60,
         ],

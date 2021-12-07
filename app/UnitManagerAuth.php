@@ -17,7 +17,7 @@ class UnitManagerAuth extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'unit', 'password',
+        'name', 'email', 'unit', 'password', 'is_active'
     ];
 
     /**

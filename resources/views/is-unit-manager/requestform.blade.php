@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
   <link href="../img/logo/cbe_logo.PNG" rel="icon">
   <title>Data Centre Gate Management System - CBE</title>
   <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -142,10 +143,15 @@
                   Settings
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item"
+                  data-toggle="modal"
+                  href="{{ route('logout') }}"
+                  onclick="event.preventDefault();
+                  document.getElementById('logout-form').submit();">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
               </div>
             </li>
           </ul>
@@ -314,26 +320,56 @@
                         </div>
                     </div><hr>
                     <div class="row form-group">
-                        <div class="col-lg-4">
+                        <div class="col-lg-2">
                             <label for="exampleInputFullname"><i style="color: black;" name="personnel1">1st Personnel</i></label>
                             <input class="form-control" type="text" placeholder="" name="personnel1">
                             <label for="exampleInputFullname"><i style="color: black;">2nd Personnel</i></label>
                             <input class="form-control" type="text" placeholder="" name="personnel2">
                         </div>
-                        <div class="col-lg-4">                          
+                        <div class="col-lg-2">                          
                             <label for="exampleInputFullname"><i style="color: black;">3rd Personnel</i></label>
                             <input class="form-control" type="text" placeholder="" name="personnel3">
                             <label for="exampleInputFullname"><i style="color: black;">4th Personnel</i></label>
                             <input class="form-control" type="text" placeholder="" name="personnel4">                          
                         </div>
-                        <div class="col-lg-4">
-                          <label for="exampleInputEmail1"><i style="color: black;">Impact</i></label>
-                          <textarea name="impact" class="form-control" id="" cols="30" rows="4.5"
-                            style="margin-top: 0px; margin-bottom: 0px; height: 118px;"></textarea>                          
+                        <div class="col-lg-2">                          
+                            <label for="exampleInputFullname"><i style="color: black;">5th Personnel</i></label>
+                            <input class="form-control" type="text" placeholder="" name="personnel5">
+                            <label for="exampleInputFullname"><i style="color: black;">6th Personnel</i></label>
+                            <input class="form-control" type="text" placeholder="" name="personnel6">                          
+                        </div>
+                        <div class="col-lg-2">                          
+                            <label for="exampleInputFullname"><i style="color: black;">7th Personnel</i></label>
+                            <input class="form-control" type="text" placeholder="" name="personnel7">
+                            <label for="exampleInputFullname"><i style="color: black;">8th Personnel</i></label>
+                            <input class="form-control" type="text" placeholder="" name="personnel8">                          
+                        </div>
+                        <div class="col-lg-2">                          
+                            <label for="exampleInputFullname"><i style="color: black;">9th Personnel</i></label>
+                            <input class="form-control" type="text" placeholder="" name="personnel9">
+                            <label for="exampleInputFullname"><i style="color: black;">10th Personnel</i></label>
+                            <input class="form-control" type="text" placeholder="" name="personnel10">                          
+                        </div>
+                        <div class="col-lg-2">
+                          <label for="exampleInputEmail1"><i style="color: black;">Escorting Team</i></label>
+                          <select class="form-control" name="escortingteam">
+                            <option>Operation Team</option>
+                            <option>Operation Team</option>
+                            <option>Operation Team</option>
+                            <option>Operation Team</option>
+                          </select>
+                          <label for="exampleInputEmail1"><i style="color: black;">List Escorts<small>(separate with comma)</small></i></label>
+                          <textarea name="escorts" class="form-control" id="" cols="30" rows="4.5"
+                            style="margin-top: 0px; margin-bottom: 0px; height: 43px;"></textarea> 
                         </div>
                     </div><hr>
                     <div class="row form-group">
-                        <div class="col-lg-12">
+                        <div class="col-lg-4">
+                          <label for="exampleInputEmail1"><i style="color: black;">Impact</i></label>
+                          <textarea name="impact" class="form-control" id="" cols="30" rows="4.5"
+                            style=""></textarea>                          
+                        </div>
+                        <div class="col-lg-8">
                           <label for="exampleInputEmail1"><i style="color: black;">Purpose</i></label>
                           <textarea name="purpose" class="form-control" id="" cols="30" rows="4"></textarea>
                         </div>

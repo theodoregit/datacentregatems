@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
   <link href="img/logo/cbe_logo.PNG" rel="icon">
   <title>Data Centre Gate Management System - CBE</title>
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -38,6 +39,7 @@
             <a class="collapse-item" href="{{route('dc-manager-account')}}">Data Centre Manager</a>
             <a class="collapse-item" href="{{route('inf-manager-account')}}">Infratructure Manager</a>
             <a class="collapse-item" href="{{route('dc-admin-account')}}">Data Center Admin</a>
+            <a class="collapse-item" href="{{route('dc-reception-account')}}">Data Center Reception</a>
           </div>
         </div>
       </li>
@@ -137,7 +139,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <img class="img-profile rounded-circle" src="img/boy.png" style="max-width: 60px">
-                <span class="ml-2 d-none d-lg-inline text-white small">Super Admin</span>
+                <span class="ml-2 d-none d-lg-inline text-white small">{{Auth::user()->name}}</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
@@ -149,10 +151,15 @@
                   Settings
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item"
+                  data-toggle="modal"
+                  href="{{ route('logout') }}"
+                  onclick="event.preventDefault();
+                  document.getElementById('logout-form').submit();">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
               </div>
             </li>
           </ul>

@@ -27,7 +27,7 @@ class DCAdminLoginController extends Controller
         ]);
 
         if(Auth::guard('dc-admin')->attempt(['email'=>$request->email, 'password'=>$request->password], $request->remember)){
-            return redirect()->intended('dc-admin/request-form-admin');
+            return redirect()->intended('dc-admin/request-form-dc-admin');
         }
         else{
             return redirect()->back()->withInput($request->only('email', 'remember'));

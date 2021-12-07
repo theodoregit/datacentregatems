@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
   <link href="../img/logo/cbe_logo.PNG" rel="icon">
   <title>Data Centre Gate Management System - CBE</title>
   <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -20,6 +21,7 @@
   <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="../css/ruang-admin.min.css" rel="stylesheet">
   <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link href="../css/ruang-admin.min.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -121,10 +123,15 @@
                   Settings
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item"
+                  data-toggle="modal"
+                  href="{{ route('logout') }}"
+                  onclick="event.preventDefault();
+                  document.getElementById('logout-form').submit();">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
               </div>
             </li>
           </ul>
@@ -141,7 +148,7 @@
             </ol>
           </div>
 
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-lg-12">
                 <div class="card mb-4">
                   <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -207,8 +214,7 @@
                           <td>{{$approved_request->date}}</td>
                           <td>Approved / Visited</td>
                           <td>
-                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                            data-target="#exampleModalScrollable" id="#modalScroll">Details</button>
+                            <a href="{{route('dc-admin-request-details', ['requestno' => preg_replace('/[^a-zA-Z0-9\s]/', '', $approved_request->requestno)])}}" class="btn btn-info btn-sm">Details</a>
                           </td>
                         </tr>
                         @endforeach
@@ -217,125 +223,74 @@
                   </div>
                 </div>
               </div>
-          </div>
+          </div> -->
         
-          <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalScrollableTitle">Access Request Detail</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+          <div class="row">
+            <!-- Datatables -->
+            <div class="col-lg-12">
+              <div class="card mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold" style="color: #460d46">All Approved Access Requests</h6>
                 </div>
-                <div class="modal-body">
-                    <small>Requester's Contact Information</small>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <i>Tewodros Yesmaw</i>
-                        </div>
-                        <div class="col-sm-4">
-                            <i>36752</i>
-                        </div>
-                        <div class="col-sm-4">
-                            <i>+251984742593</i>
-                        </div>
-                    </div>
-                    <hr>
-                    <small>Access Request Dates</small>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <i>From: 11/11/21</i>
-                        </div>
-                        <div class="col-sm-4">
-                            <i>To: 15/11/21</i>
-                        </div>
-                        <div class="col-sm-4">
-                            <i>For: 5 Days</i>
-                        </div>
-                    </div>
-                    <hr>
-                    <small>Requester Location and Time</small>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <i>Addis Ababa Branch Data Centre</i>
-                        </div>
-                        <div class="col-sm-4">
-                            <i>During Normal Business Hours</i>
-                        </div>
-                        <div class="col-sm-4">
-                            <i>Computer Rooms</i>
-                        </div>
-                    </div>
-                    <hr>
-                    <small>Visitors</small>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <i>Tewodros Yesmaw</i><br>
-                            <i>Tewodros Yesmaw</i>
-                        </div>
-                        <div class="col-sm-6">
-                            <i>Tewodros Yesmaw</i><br>
-                            <i>Tewodros Yesmaw</i>
-                        </div>
-                    </div>
-                    <hr>
-                    <small>Location and Impacts</small>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <i>Rack</i><br>
-                            <i>Rack</i>
-                        </div>
-                        <div class="col-sm-6">
-                            <i>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                                et dolore magna aliqua.</i>
-                        </div>
-                    </div>
-                    <hr>
-                    <small>Purpose</small>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <i>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                                et dolore magna aliqua. Lacinia quis vel eros donec. Nec tincidunt praesent semper feugiat nibh sed
-                                pulvinar proin gravida. Urna cursus eget nunc scelerisque viverra mauris in. Risus sed vulputate
-                                odio ut enim blandit volutpat maecenas. Etiam sit amet nisl purus in mollis nunc. Aliquet bibendum
-                                enim facilisis gravida neque convallis a. Aliquam id diam maecenas ultricies mi eget mauris. Et
-                                malesuada fames ac turpis egestas sed. Venenatis cras sed felis eget.</i>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                  <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#exampleModalCenter"
-                  id="#modalCenter">Deny</button>
-                  <button type="button" class="btn btn-success">Confirm</button>
+                <div class="table-responsive p-3">
+                  <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>Request ID</th>
+                        <th>Full Name</th>
+                        <th>Unit</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th></th>
+                      </tr>
+                    </thead>                    
+                    <tbody>
+                      @foreach($approved_requests as $approved_request)
+                      <tr>
+                        <td>{{$approved_request->requestno}}</td>
+                        <td>{{$approved_request->fullname}}</td>
+                        <td>
+                          <?php
+                            switch ($approved_request->unit) {
+                              case '01':
+                                echo 'Business Analysis and IS PMO';
+                                break;
+                              case '02':
+                                echo 'Information Management';
+                                break;
+                              case '03':
+                                echo 'Infratructure Management';
+                                break;
+                              case '04':
+                                echo 'IS Application Management and Customization';
+                                break;
+                              case '05':
+                                echo 'IS Operations and BC/DR Management';
+                                break;
+                              case '06':
+                                echo 'IS Security';
+                                break;
+                                
+                              default:
+                                //
+                                break;
+                            }
+                          ?>
+                        </td>
+                        <td>{{$approved_request->date}}</td>
+                        <td>Approved / Visited</td>
+                        <td>
+                          <a href="{{route('dc-admin-request-details', ['requestno' => preg_replace('/[^a-zA-Z0-9\s]/', '', $approved_request->requestno)])}}" class="btn btn-info btn-sm">Details</a>
+                        </td>
+                      </tr>
+                      @endforeach
+                    </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
-            </div>
           </div>
-          <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-              <div class="modal-content" style="background-color: rgb(166, 163, 167);">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalCenterTitle">Mention Denial Reason</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form action="">
-                      <div class="form-group">
-                          <textarea class="form-control" name="" id="" cols="30" rows="10" placeholder="Your reasons here..."></textarea>
-                      </div>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-info">Submit</button>
-                </div>
-              </div>
-            </div>
-          </div>
+          
           <!-- Modal Logout -->
           <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
             aria-hidden="true">
@@ -492,6 +447,17 @@
         input.clockpicker('show').clockpicker('toggleView', 'minutes');
       });
 
+    });
+  </script>
+
+  <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="../js/ruang-admin.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script>
+    $(document).ready(function () {
+      $('#dataTable').DataTable(); // ID From dataTable 
+      $('#dataTableHover').DataTable(); // ID From dataTable with Hover
     });
   </script>
 </body>

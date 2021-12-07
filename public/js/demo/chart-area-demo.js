@@ -46,7 +46,7 @@ var myLineChart = new Chart(ctx, {
       pointHoverBorderColor: "rgba(78, 115, 223, 1)",
       pointHitRadius: 10,
       pointBorderWidth: 2,
-      data: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 120, 150],
+      data: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 120, 150, 200, 220],
     }],
   },
   options: {
@@ -76,7 +76,6 @@ var myLineChart = new Chart(ctx, {
         ticks: {
           maxTicksLimit: 5,
           padding: 10,
-          // Include a dollar sign in the ticks
           callback: function(value, index, values) {
             return '' + number_format(value);
           }

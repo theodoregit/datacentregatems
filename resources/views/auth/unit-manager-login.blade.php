@@ -9,6 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link href="../img/logo/cbe_logo.PNG" rel="icon">
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
   <title>Data Centre Gate Management System - CBE</title>
   <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="../vendor/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css">

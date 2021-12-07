@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\AccessRequests;
 use Illuminate\Support\Facades\Auth;
+use DateTime;
 
 class ISUnitManagerController extends Controller
 {
@@ -30,11 +31,17 @@ class ISUnitManagerController extends Controller
 
     public function requests(){
         return view('is-unit-manager.requests')
-                ->with('requests', AccessRequests::where('unit', '=', Auth::user()->unit)->orderBy('date', 'DESC')->get());
+                ->with('requests', AccessRequests::where('unit', '=', Auth::user()->unit)->orderBy('date', 'DESC')->get())
+                ->with('pending', AccessRequests::where('unit', '=', Auth::user()->unit)->where('status', '=', 'pending')->get())
+                ->with('confirmed', AccessRequests::where('unit', '=', Auth::user()->unit)->where('status', '=', 'confirmed')->get())
+                ->with('denied', AccessRequests::where('unit', '=', Auth::user()->unit)->where('status', '=', 'denied')->get())
+                ->with('approved', AccessRequests::where('unit', '=', Auth::user()->unit)->where('status', '=', 'approved')->get())
+                ->with('rejected', AccessRequests::where('unit', '=', Auth::user()->unit)->where('status', '=', 'rejected')->get());
     }
     
     //revoke a request
     public function revokeRequest(Request $request){
+        // dd($request->all());
         $revoke_request = AccessRequests::where('requestno', $request->revoke);
         $revoke_request->delete();
         $request->session()->flash('alert-success', ' Report is deleted successfully.');
@@ -67,12 +74,26 @@ class ISUnitManagerController extends Controller
     
     public function store(Request $request)
     {
+        // $origin = new DateTime('2009-10-11');
+        // $target = new DateTime('2009-12-06');
+        // $interval = $origin->diff($target);
+        // echo $interval->format('%R%a days');
         // echo implode(" ", $request->accesstime);
         // $num = mt_rand(1000,9999);
         // echo $num;
         // $days = $request->enddate-$request->startdate;
         $letter = $request->file('letter');
         $letter = $letter->getClientOriginalName().time();
+
+        $startdate = new DateTime(str_replace("/","-",$request->startdate));
+        $enddate = new DateTime(str_replace("/","-",$request->enddate));
+
+        $interval = $startdate->diff($enddate);
+        $interval = $interval->format('%R%a days');
+        
+        $days = str_replace('+', '', $interval);
+        $days = str_replace('days', '', $days);
+        // echo $days;
         // dd($request->all());
         // $req_no = 1;
         // $req_id = date('d').date('m').substr(date('Y'), 2).$unit.mt_rand(1000,9999);
@@ -103,7 +124,7 @@ class ISUnitManagerController extends Controller
                 $unit = '04';
                 break;
             case 'IS Security':
-                $unit = '06';
+                $unit = '06';                                         
                 break;
             case 'IS Operations and BC/DR Management':
                 $unit = '05';
@@ -118,16 +139,16 @@ class ISUnitManagerController extends Controller
                 //
                 break;
         }
-
+        
         $access_request = AccessRequests::create([
             'fullname' => $request->fullname ,
-            'requestno' => date('d').date('m').substr(date('Y'), 2).$unit.mt_rand(1000, 9999),
+            'requestno' => date('d').date('m').substr(date('Y'), 2).$request->idnumber.mt_rand(1000, 9999),
             'phone_number' => $request->phonenumber,
             'id_number' => $request->idnumber,
             'date' => date('Y-m-d h:m:s'),
             'starting_date' => $request->startdate,
             'end_date' => $request->enddate,
-            'remaining_days' => $request->enddate-$request->startdate,
+            'remaining_days' => $days,
             'access_req_location' => $request->accessrequiredto,
             'access_time' => implode(", ", $request->accesstime), 
             'areas_tobe_accessed' => implode(", ", $request->areastobeaccessed),
@@ -135,8 +156,18 @@ class ISUnitManagerController extends Controller
             'personnel2' => $request->personnel2,
             'personnel3' => $request->personnel3,
             'personnel4' => $request->personnel4,
+            'personnel5' => $request->personnel5,
+            'personnel6' => $request->personnel6,
+            'personnel7' => $request->personnel7,
+            'personnel8' => $request->personnel8,
+            'personnel9' => $request->personnel9,
+            'personnel10' => $request->personnel10,
+            'escortingteam' => $request->escortingteam,
+            'escorts' => $request->escorts,
             'location' => $request->location,
             'impact' => $request->impact,
+            'denial_reason' => '',
+            'rejection_reason' => '',
             'purpose' => $request->purpose,
             'letter' => $letter,
             'unit' => $unit

@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
   <link href="../img/logo/cbe_logo.PNG" rel="icon">
   <title>Data Centre Gate Management System - CBE</title>
   <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -140,10 +141,15 @@
                   Settings
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item"
+                  data-toggle="modal"
+                  href="{{ route('logout') }}"
+                  onclick="event.preventDefault();
+                  document.getElementById('logout-form').submit();">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
               </div>
             </li>
           </ul>
@@ -162,77 +168,476 @@
 
           <div class="row">
             <div class="col-lg-12">
-                <div class="card mb-4">
-                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold" style="color: #460d46">All Access Requests</h6>
-                  </div>
-                  <div class="table-responsive p-3">
-                    <table class="table align-items-center table-flush table-hover" id="dataTableHover">
-                      <thead class="thead-light">
-                        <tr>
-                          <th>Request ID</th>
-                          <th>Access Required Location</th>
-                          <th>Access Time</th>
-                          <th>Remaining Days</th>
-                          <th>Status</th>
-                          <th></th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        @foreach($requests as $request)
-                        <tr>
-                          <td>{{$request->requestno}}</td>
-                          <td>{{$request->access_req_location}}</td>
-                          <td>{{$request->access_time}}</td>
-                          <td>{{$request->remaining_days}}</td>
-                          <td>
-                            @if($request->is_confirmed == 0 && $request->is_denied == 0)
-                              <strong style="color: blue;"><i class="fa fa-hourglass-end" aria-hidden="true"></i> Pending</strong>
-                            @elseif($request->is_confirmed == 0 || $request->is_denied == 1)
-                              <strong style="color: #ffa07a;"><i class="fa fa-ban" aria-hidden="true"></i> Denied</strong>
-                            @else
-                              @if($request->is_confirmed == 1 && $request->is_approved == 1)
-                                <strong style="color: green"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Granted</strong>
-                              @elseif($request->is_approved == 0 && $request->is_rejected == 1 && $request->is_confirmed == 1)
-                                <strong style="color: red"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Rejected</strong>
+              <!-- Tabs navs -->
+              <ul class="nav nav-tabs nav-justified mb-3" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <a
+                    class="nav-link active"
+                    id="ex3-tab-1"
+                    data-mdb-toggle="tab"
+                    href="#all"
+                    role="tab"
+                    aria-controls="ex3-tabs-1"
+                    aria-selected="true"
+                    ><h4 style=""><span class="badge badge-secondary"><i class="fa fa-list" aria-hidden="true"></i> All Requests</span> </h4></a
+                  >
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a
+                    class="nav-link"
+                    id="ex3-tab-2"
+                    data-mdb-toggle="tab"
+                    href="#pending"
+                    role="tab"
+                    aria-controls="ex3-tabs-2"
+                    aria-selected="false"
+                    ><h4 style=""><span class="badge badge-primary"><i class="fa fa-hourglass-end" aria-hidden="true"></i> Pending</span> </h4>  </a
+                  >
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a
+                    class="nav-link"
+                    id="ex3-tab-3"
+                    data-mdb-toggle="tab"
+                    href="#confirmed"
+                    role="tab"
+                    aria-controls="ex3-tabs-3"
+                    aria-selected="false"
+                    ><h4 style=""><span class="badge badge-info"><i class="fa fa-check" aria-hidden="true"></i> Confirmed</span> </h4></a
+                  >
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a
+                    class="nav-link"
+                    id="ex3-tab-4"
+                    data-mdb-toggle="tab"
+                    href="#denied"
+                    role="tab"
+                    aria-controls="ex3-tabs-4"
+                    aria-selected="false"
+                    ><h4 style=""><span class="badge badge-warning"><i class="fa fa-ban" aria-hidden="true"></i> Denied</span> </h4></a
+                  >
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a
+                    class="nav-link"
+                    id="ex3-tab-5"
+                    data-mdb-toggle="tab"
+                    href="#approved"
+                    role="tab"
+                    aria-controls="ex3-tabs-5"
+                    aria-selected="false"
+                    ><h4 style=""><span class="badge badge-success"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Approved</span> </h4></a
+                  >
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a
+                    class="nav-link"
+                    id="ex3-tab-6"
+                    data-mdb-toggle="tab"
+                    href="#rejected"
+                    role="tab"
+                    aria-controls="ex3-tabs-6"
+                    aria-selected="false"
+                    ><h4 style=""><span class="badge badge-danger"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Rejected</span> </h4></a
+                  >
+                </li>
+              </ul>
+              <!-- Tabs navs -->
+              <!-- Tabs content -->
+              <div class="tab-content" id="ex2-content">
+                <div
+                  class="tab-pane fade show active"
+                  id="all"
+                  role="tabpanel"
+                  aria-labelledby="ex3-tab-1"
+                >
+                  <div class="card mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                      <h6 class="m-0 font-weight-bold" style="color: #460d46">All Access Requests</h6>
+                    </div>
+                    <div class="table-responsive p-3">
+                      <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                        <thead class="thead-light">
+                          <tr>
+                            <th>Request ID</th>
+                            <th>Access Required Location</th>
+                            <th>Access Time</th>
+                            <th>Remaining Days</th>
+                            <th>Status</th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach($requests as $request)
+                          <tr>
+                            <td>{{$request->requestno}}</td>
+                            <td>{{$request->access_req_location}}</td>
+                            <td>{{$request->access_time}}</td>
+                            <td>{{$request->remaining_days}}</td>
+                            <td>
+                              @if($request->is_confirmed == 0 && $request->is_denied == 0)
+                                <strong style=""><span class="badge badge-primary"><i class="fa fa-hourglass-end" aria-hidden="true"></i> Pending</span></strong>
+                              @elseif($request->is_confirmed == 0 || $request->is_denied == 1)
+                                <!-- <strong style="color: #ffa07a;"><i class="fa fa-ban" aria-hidden="true"></i> Denied</strong> -->
+                                <strong style=""><span class="badge badge-warning"><i class="fa fa-ban" aria-hidden="true"></i> Denied</span></strong>
                               @else
-                              <strong style="color: #90ee90;"><i class="fa fa-check" aria-hidden="true"></i> Confirmed</strong>
+                                @if($request->is_confirmed == 1 && $request->is_approved == 1)
+                                  <strong style=""><span class="badge badge-success"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Granted</span></strong>
+                                @elseif($request->is_approved == 0 && $request->is_rejected == 1 && $request->is_confirmed == 1)
+                                  <!-- <strong style="color: red"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Rejected</strong> -->
+                                  <strong style=""><span class="badge badge-danger"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Rejected</span></strong>
+                                @else
+                                <!-- <strong style="color: #90ee90;"><i class="fa fa-check" aria-hidden="true"></i> Confirmed</strong> -->
+                                <strong style=""><span class="badge badge-info"><i class="fa fa-check" aria-hidden="true"></i> Confirmed</span></strong>
+                                @endif
                               @endif
-                            @endif
-                            <?php
-                              // if($request->is_confirmed == 0){
-                              //   echo '<strong style="color: blue;"><i class="fa fa-hourglass-end" aria-hidden="true"></i> Pending</strong>';
-                              // }
-                              // else{
-                              //   if($request->is_approved == 1){
-                              //     echo '<strong style="color: green">Granted</strong>';
-                              //   }
-                              //   else{
-                              //     echo '<strong style="color: #90ee90;"><i class="fa fa-check" aria-hidden="true"></i> Confirmed</strong>';
-                              //   }
-                              // }
-                            ?>
-                          </td>
-                          <td>
-                            <a href="{{route('request-details', ['requestno' => preg_replace('/[^a-zA-Z0-9\s]/', '', $request->requestno)])}}" class="btn btn-info btn-sm">Details</a>
-                          </td>
-                          <!-- <td><button class="btn btn-info btn-sm">Details</button></td> -->
-                          <td>
-                            @if($request->is_confirmed == 1 || $request->is_denied == 1)
-                            <button class="btn btn-warning btn-sm" style="cursor: not-allowed; pointer-events: all !important;">Revoke</button>
-                            @else
-                            <button class="btn btn-warning btn-sm" style="" data-toggle="modal" data-target="#exampleModalCenter"
-                            id="#modalCenter2">Revoke</button>
-                            @endif                              
-                          </td>
-                        </tr>
-                        @endforeach
-                      </tbody>
-                    </table>
+                              <?php
+                                // if($request->is_confirmed == 0){
+                                //   echo '<strong style="color: blue;"><i class="fa fa-hourglass-end" aria-hidden="true"></i> Pending</strong>';
+                                // }
+                                // else{
+                                //   if($request->is_approved == 1){
+                                //     echo '<strong style="color: green">Granted</strong>';
+                                //   }
+                                //   else{
+                                //     echo '<strong style="color: #90ee90;"><i class="fa fa-check" aria-hidden="true"></i> Confirmed</strong>';
+                                //   }
+                                // }
+                              ?>
+                            </td>
+                            <td>
+                              <a href="{{route('request-details', ['requestno' => preg_replace('/[^a-zA-Z0-9\s]/', '', $request->requestno)])}}" class="btn btn-outline-info btn-sm">Details</a>
+                            </td>
+                            <!-- <td><button class="btn btn-info btn-sm">Details</button></td> -->
+                            <td>
+                              @if($request->is_confirmed == 1 || $request->is_denied == 1)
+                              <button class="btn btn-outline-warning btn-sm" style="cursor: not-allowed; pointer-events: all !important;">Revoke</button>
+                              <?php
+                                $request_no = $request->requestno;
+                              ?>
+                              @else
+                                <form action="{{route('unit-manager.revoke-request')}}" method="post">
+                                  {{csrf_field()}}
+                                  <input type="text" value="{{$request->requestno}}" name="revoke" style="display: none;">
+                                  <button type="submit" class="btn btn-outline-warning btn-sm">Revoke</button>
+                                </form>
+                              <!-- <button class="btn btn-warning btn-sm" style="" data-toggle="modal" data-target="#exampleModalCenter"
+                              id="#modalCenter2">Revoke</button> -->
+                              @endif                              
+                            </td>
+                          </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="pending"
+                  role="tabpanel"
+                  aria-labelledby="ex3-tab-2"
+                >
+                
+                  <div class="card mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                      <h6 class="m-0 font-weight-bold" style="color: #460d46">Pending Requests</h6>
+                    </div>
+                    <div class="table-responsive p-3">
+                      <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                        <thead class="thead-light">
+                          <tr>
+                            <th>Request ID</th>
+                            <th>Access Required Location</th>
+                            <th>Access Time</th>
+                            <th>Remaining Days</th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach($pending as $request)
+                          <tr>
+                            <td>{{$request->requestno}}</td>
+                            <td>{{$request->access_req_location}}</td>
+                            <td>{{$request->access_time}}</td>
+                            <td>{{$request->remaining_days}}</td>
+                            <td>
+                              <a href="{{route('request-details', ['requestno' => preg_replace('/[^a-zA-Z0-9\s]/', '', $request->requestno)])}}" class="btn btn-outline-info btn-sm">Details</a>
+                            </td>
+                            <!-- <td><button class="btn btn-info btn-sm">Details</button></td> -->
+                            <td>
+                              @if($request->is_confirmed == 1 || $request->is_denied == 1)
+                              <button class="btn btn-outline-warning btn-sm" style="cursor: not-allowed; pointer-events: all !important;">Revoke</button>
+                              <?php
+                                $request_no = $request->requestno;
+                              ?>
+                              @else
+                                <form action="{{route('unit-manager.revoke-request')}}" method="post">
+                                  {{csrf_field()}}
+                                  <input type="text" value="{{$request->requestno}}" name="revoke" style="display: none;">
+                                  <button type="submit" class="btn btn-outline-warning btn-sm">Revoke</button>
+                                </form>
+                              <!-- <button class="btn btn-warning btn-sm" style="" data-toggle="modal" data-target="#exampleModalCenter"
+                              id="#modalCenter2">Revoke</button> -->
+                              @endif                              
+                            </td>
+                          </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="confirmed"
+                  role="tabpanel"
+                  aria-labelledby="ex3-tab-3"
+                >
+                <div class="card mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                      <h6 class="m-0 font-weight-bold" style="color: #460d46">Pending Requests</h6>
+                    </div>
+                    <div class="table-responsive p-3">
+                      <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                        <thead class="thead-light">
+                          <tr>
+                            <th>Request ID</th>
+                            <th>Access Required Location</th>
+                            <th>Access Time</th>
+                            <th>Remaining Days</th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach($confirmed as $request)
+                          <tr>
+                            <td>{{$request->requestno}}</td>
+                            <td>{{$request->access_req_location}}</td>
+                            <td>{{$request->access_time}}</td>
+                            <td>{{$request->remaining_days}}</td>
+                            <td>
+                              <a href="{{route('request-details', ['requestno' => preg_replace('/[^a-zA-Z0-9\s]/', '', $request->requestno)])}}" class="btn btn-outline-info btn-sm">Details</a>
+                            </td>
+                            <!-- <td><button class="btn btn-info btn-sm">Details</button></td> -->
+                            <td>
+                              @if($request->is_confirmed == 1 || $request->is_denied == 1)
+                              <button class="btn btn-outline-warning btn-sm" style="cursor: not-allowed; pointer-events: all !important;">Revoke</button>
+                              <?php
+                                $request_no = $request->requestno;
+                              ?>
+                              @else
+                                <form action="{{route('unit-manager.revoke-request')}}" method="post">
+                                  {{csrf_field()}}
+                                  <input type="text" value="{{$request->requestno}}" name="revoke" style="display: none;">
+                                  <button type="submit" class="btn btn-outline-warning btn-sm">Revoke</button>
+                                </form>
+                              <!-- <button class="btn btn-warning btn-sm" style="" data-toggle="modal" data-target="#exampleModalCenter"
+                              id="#modalCenter2">Revoke</button> -->
+                              @endif                              
+                            </td>
+                          </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="denied"
+                  role="tabpanel"
+                  aria-labelledby="ex3-tab-3"
+                >
+                <div class="card mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                      <h6 class="m-0 font-weight-bold" style="color: #460d46">Pending Requests</h6>
+                    </div>
+                    <div class="table-responsive p-3">
+                      <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                        <thead class="thead-light">
+                          <tr>
+                            <th>Request ID</th>
+                            <th>Access Required Location</th>
+                            <th>Access Time</th>
+                            <th>Remaining Days</th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach($denied as $request)
+                          <tr>
+                            <td>{{$request->requestno}}</td>
+                            <td>{{$request->access_req_location}}</td>
+                            <td>{{$request->access_time}}</td>
+                            <td>{{$request->remaining_days}}</td>
+                            <td>
+                              <a href="{{route('request-details', ['requestno' => preg_replace('/[^a-zA-Z0-9\s]/', '', $request->requestno)])}}" class="btn btn-outline-info btn-sm">Details</a>
+                            </td>
+                            <!-- <td><button class="btn btn-info btn-sm">Details</button></td> -->
+                            <td>
+                              @if($request->is_confirmed == 1 || $request->is_denied == 1)
+                              <button class="btn btn-outline-warning btn-sm" style="cursor: not-allowed; pointer-events: all !important;">Revoke</button>
+                              <?php
+                                $request_no = $request->requestno;
+                              ?>
+                              @else
+                                <form action="{{route('unit-manager.revoke-request')}}" method="post">
+                                  {{csrf_field()}}
+                                  <input type="text" value="{{$request->requestno}}" name="revoke" style="display: none;">
+                                  <button type="submit" class="btn btn-outline-warning btn-sm">Revoke</button>
+                                </form>
+                              <!-- <button class="btn btn-warning btn-sm" style="" data-toggle="modal" data-target="#exampleModalCenter"
+                              id="#modalCenter2">Revoke</button> -->
+                              @endif                              
+                            </td>
+                          </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="approved"
+                  role="tabpanel"
+                  aria-labelledby="ex3-tab-3"
+                >
+                <div class="card mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                      <h6 class="m-0 font-weight-bold" style="color: #460d46">Pending Requests</h6>
+                    </div>
+                    <div class="table-responsive p-3">
+                      <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                        <thead class="thead-light">
+                          <tr>
+                            <th>Request ID</th>
+                            <th>Access Required Location</th>
+                            <th>Access Time</th>
+                            <th>Remaining Days</th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach($approved as $request)
+                          <tr>
+                            <td>{{$request->requestno}}</td>
+                            <td>{{$request->access_req_location}}</td>
+                            <td>{{$request->access_time}}</td>
+                            <td>{{$request->remaining_days}}</td>
+                            <td>
+                              <a href="{{route('request-details', ['requestno' => preg_replace('/[^a-zA-Z0-9\s]/', '', $request->requestno)])}}" class="btn btn-outline-info btn-sm">Details</a>
+                            </td>
+                            <!-- <td><button class="btn btn-info btn-sm">Details</button></td> -->
+                            <td>
+                              @if($request->is_confirmed == 1 || $request->is_denied == 1)
+                              <button class="btn btn-outline-warning btn-sm" style="cursor: not-allowed; pointer-events: all !important;">Revoke</button>
+                              <?php
+                                $request_no = $request->requestno;
+                              ?>
+                              @else
+                                <form action="{{route('unit-manager.revoke-request')}}" method="post">
+                                  {{csrf_field()}}
+                                  <input type="text" value="{{$request->requestno}}" name="revoke" style="display: none;">
+                                  <button type="submit" class="btn btn-outline-warning btn-sm">Revoke</button>
+                                </form>
+                              <!-- <button class="btn btn-warning btn-sm" style="" data-toggle="modal" data-target="#exampleModalCenter"
+                              id="#modalCenter2">Revoke</button> -->
+                              @endif                              
+                            </td>
+                          </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="rejected"
+                  role="tabpanel"
+                  aria-labelledby="ex3-tab-3"
+                >
+                <div class="card mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                      <h6 class="m-0 font-weight-bold" style="color: #460d46">Pending Requests</h6>
+                    </div>
+                    <div class="table-responsive p-3">
+                      <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                        <thead class="thead-light">
+                          <tr>
+                            <th>Request ID</th>
+                            <th>Access Required Location</th>
+                            <th>Access Time</th>
+                            <th>Rejection Reason</th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach($rejected as $request)
+                          <tr>
+                            <td>{{$request->requestno}}</td>
+                            <td>{{$request->access_req_location}}</td>
+                            <td>{{$request->access_time}}</td>
+                            <td>
+                              <?php
+                                // strip tags to avoid breaking any html
+                                $string = strip_tags($request->rejection_reason);
+                                if (strlen($string) > 50) {
+
+                                    // truncate string
+                                    $stringCut = substr($string, 0, 50);
+                                    $endPoint = strrpos($stringCut, ' ');
+
+                                    //if the string doesn't contain any space then it will cut without word basis.
+                                    $string = $endPoint? substr($stringCut, 0, $endPoint) : substr($stringCut, 0);
+                                    $string .= '... <a href="/this/story">Read More</a>';
+                                }
+                                echo $string;
+                              ?>
+                            </td>
+                            <td>
+                              <a href="{{route('request-details', ['requestno' => preg_replace('/[^a-zA-Z0-9\s]/', '', $request->requestno)])}}" class="btn btn-outline-info btn-sm">Details</a>
+                            </td>
+                            <!-- <td><button class="btn btn-info btn-sm">Details</button></td> -->
+                            <td>
+                              @if($request->is_confirmed == 1 || $request->is_denied == 1)
+                              <button class="btn btn-outline-warning btn-sm" style="cursor: not-allowed; pointer-events: all !important;">Revoke</button>
+                              <?php
+                                $request_no = $request->requestno;
+                              ?>
+                              @else
+                                <form action="{{route('unit-manager.revoke-request')}}" method="post">
+                                  {{csrf_field()}}
+                                  <input type="text" value="{{$request->requestno}}" name="revoke" style="display: none;">
+                                  <button type="submit" class="btn btn-outline-warning btn-sm">Revoke</button>
+                                </form>
+                              <!-- <button class="btn btn-warning btn-sm" style="" data-toggle="modal" data-target="#exampleModalCenter"
+                              id="#modalCenter2">Revoke</button> -->
+                              @endif                              
+                            </td>
+                          </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
+              <!-- Tabs content -->
+                
+              </div>
+          <!-- Rejection Modal -->
+          
           </div>
           <!-- Revoke modal -->
           <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
@@ -252,7 +657,7 @@
                   <button type="button" class="btn btn-outline-primary" data-dismiss="modal">No</button>
                   <form action="{{route('unit-manager.revoke-request')}}" method="post">
                     {{csrf_field()}}
-                    <input type="text" value="{{$request->requestno}}" name="revoke" style="display: none;">
+                    <input type="text" value="<?php echo $request->requestno; ?>" name="revoke" style="display: none;">
                     <button type="submit" class="btn btn-primary">Yes</button>
                   </form>
                 </div>
@@ -316,6 +721,7 @@
   <script src="../vendor/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js"></script>
   <!-- ClockPicker -->
   <script src="../vendor/clock-picker/clockpicker.js"></script>
+
   <script>
     $(document).ready(function () {
 
@@ -414,6 +820,18 @@
 
     });
   </script>
+  <script>
+    var triggerTabList = [].slice.call(document.querySelectorAll('#myTab a'))
+      triggerTabList.forEach(function (triggerEl) {
+        var tabTrigger = new bootstrap.Tab(triggerEl)
+
+        triggerEl.addEventListener('click', function (event) {
+          event.preventDefault()
+          tabTrigger.show()
+        })
+      });
+  </script>
+
 </body>
 
 </html>

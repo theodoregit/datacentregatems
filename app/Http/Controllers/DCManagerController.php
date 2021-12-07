@@ -109,12 +109,12 @@ class DCManagerController extends Controller
     }
 
     public function confirmRequest(Request $request){
-        $confirmation = AccessRequests::where('requestno', $request->is_confirmed)->update(['is_confirmed' => 1]);
+        $confirmation = AccessRequests::where('requestno', $request->is_confirmed)->update(['is_confirmed' => 1, 'status' => 'confirmed']);
         return redirect()->back();
     }
 
     public function denyRequest(Request $request){
-        $deny = AccessRequests::where('requestno', $request->is_denied)->update(['is_denied' => 1, 'denial_reason' => $request->denial_reason]);
+        $deny = AccessRequests::where('requestno', $request->is_denied)->update(['is_denied' => 1, 'status' => 'denied', 'denial_reason' => $request->denial_reason]);
         return redirect()->back();
     }
 }

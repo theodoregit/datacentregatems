@@ -7,9 +7,19 @@ use App\UnitManagerAuth;
 use App\DCManagerAuth;
 use App\InfManagerAuth;
 use App\DCAdminAuth;
+use App\DCReceptionAuth;
 
 class AccountsController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -103,6 +113,68 @@ class AccountsController extends Controller
         ]);
 
         return redirect()->back();
+    }
+
+    public function dcReception(){
+        return view('admin.dc-reception-acc')->with('dcrs', DCReceptionAuth::all());
+    }
+
+    public function createDcReception(Request $request){
+        $dcReception = DCReceptionAuth::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request['password']),
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function suspendAccount(Request $request){
+        switch ($request->unit) {
+            case 'unit':
+                $suspend = UnitManagerAuth::where('email', $request->suspend_u)->update(['is_active' => 0]);
+                return redirect()->back();
+                break;
+            case 'dc':
+                $suspend = DCManagerAuth::where('email', $request->suspend_dc)->update(['is_active' => 0]);
+                return redirect()->back();
+                break;
+            case 'inf':
+                $suspend = InfManagerAuth::where('email', $request->suspend_inf)->update(['is_active' => 0]);
+                return redirect()->back();
+                break;
+            case 'dca':
+                $suspend = DCAdminAuth::where('email', $request->suspend_dca)->update(['is_active' => 0]);
+                return redirect()->back();
+                break;
+            default:
+                dd($request->all());
+                break;
+        }
+    }
+
+    public function restoreAccount(Request $request){
+        switch ($request->unit) {
+            case 'unit':
+                $suspend = UnitManagerAuth::where('email', $request->restore_u)->update(['is_active' => 1]);
+                return redirect()->back();
+                break;
+            case 'dc':
+                $suspend = DCManagerAuth::where('email', $request->restore_dc)->update(['is_active' => 1]);
+                return redirect()->back();
+                break;
+            case 'inf':
+                $suspend = InfManagerAuth::where('email', $request->restore_inf)->update(['is_active' => 1]);
+                return redirect()->back();
+                break;
+            case 'dca':
+                $suspend = DCAdminAuth::where('email', $request->restore_dca)->update(['is_active' => 1]);
+                return redirect()->back();
+                break;
+            default:
+                break;
+        }
+        
     }
 
     public function index()

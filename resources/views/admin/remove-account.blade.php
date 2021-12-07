@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
   <link href="img/logo/cbe_logo.PNG" rel="icon">
   <title>Data Centre Gate Management System - CBE</title>
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -38,6 +39,7 @@
             <a class="collapse-item" href="{{route('dc-manager-account')}}">Data Centre Manager</a>
             <a class="collapse-item" href="{{route('inf-manager-account')}}">Infratructure Manager</a>
             <a class="collapse-item" href="{{route('dc-admin-account')}}">Data Center Admin</a>
+            <a class="collapse-item" href="{{route('dc-reception-account')}}">Data Center Reception</a>
           </div>
         </div>
       </li>
@@ -149,10 +151,15 @@
                   Settings
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item"
+                  data-toggle="modal"
+                  href="{{ route('logout') }}"
+                  onclick="event.preventDefault();
+                  document.getElementById('logout-form').submit();">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
               </div>
             </li>
           </ul>
@@ -220,13 +227,34 @@
                               }
                             ?>
                           </td>
-                          <td>Active</td>
                           <td>
-                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModalCenter"
-                                id="#modalCenter">Suspend</button>
+                            @if($um->is_active == 1)
+                              Active
+                            @else
+                              Inactive
+                            @endif
                           </td>
                           <td>
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                            @if($um->is_active == 1)
+                              <form action="{{route('admin.suspend-account')}}" method="post">
+                                  {{csrf_field()}}
+                                <input type="text" value="unit" name="unit" style="display: none;">
+                                <input type="text" value="{{$um->email}}" name="suspend_u" style="display: none;">
+                                <button type="submit" class="btn btn-outline-warning btn-sm">Suspend</button>
+                              </form>
+                              <!-- <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModalCenter"
+                                  id="#modalCenter">Suspend</button> -->
+                            @else
+                              <form action="{{route('admin.restore-account')}}" method="post">
+                                  {{csrf_field()}}
+                                <input type="text" value="unit" name="unit" style="display: none;">
+                                <input type="text" value="{{$um->email}}" name="restore_u" style="display: none;">
+                                <button type="submit" class="btn btn-outline-info btn-sm">Restore</button>
+                              </form>
+                            @endif
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal"
                             data-target="#exampleModalScrollable" id="#modalScroll">Remove</button>
                           </td>
                         </tr>
@@ -238,13 +266,34 @@
                           <td>{{$dc->email}}</td>
                           <td>{{$dc->name}}</td>
                           <td>Data Center Manager</td>
-                          <td>Active</td>
                           <td>
-                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModalCenter"
-                                id="#modalCenter">Suspend</button>
+                            @if($dc->is_active == 1)
+                              Active
+                            @else
+                              Inactive
+                            @endif
                           </td>
                           <td>
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                            @if($dc->is_active == 1)
+                              <form action="{{route('admin.suspend-account')}}" method="post">
+                                  {{csrf_field()}}
+                                <input type="text" value="dc" name="unit" style="display: none;">
+                                <input type="text" value="{{$dc->email}}" name="suspend_dc" style="display: none;">
+                                <button type="submit" class="btn btn-outline-warning btn-sm">Suspend</button>
+                              </form>
+                              <!-- <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModalCenter"
+                                  id="#modalCenter">Suspend</button> -->
+                            @else
+                              <form action="{{route('admin.restore-account')}}" method="post">
+                                  {{csrf_field()}}
+                                <input type="text" value="dc" name="unit" style="display: none;">
+                                <input type="text" value="{{$dc->email}}" name="restore_dc" style="display: none;">
+                                <button type="submit" class="btn btn-outline-info btn-sm">Restore</button>
+                              </form>
+                            @endif
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal"
                             data-target="#exampleModalScrollable" id="#modalScroll">Remove</button>
                           </td>
                         </tr>
@@ -256,13 +305,34 @@
                           <td>{{$inf->email}}</td>
                           <td>{{$inf->name}}</td>
                           <td>Infrastructure Manager</td>
-                          <td>Active</td>
                           <td>
-                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModalCenter"
-                                id="#modalCenter">Suspend</button>
+                            @if($inf->is_active == 1)
+                              Active
+                            @else
+                              Inactive
+                            @endif
                           </td>
                           <td>
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                            @if($inf->is_active == 1)
+                              <form action="{{route('admin.suspend-account')}}" method="post">
+                                  {{csrf_field()}}
+                                <input type="text" value="inf" name="unit" style="display: none;">                                
+                                <input type="text" value="{{$inf->email}}" name="suspend_inf" style="display: none;">
+                                <button type="submit" class="btn btn-outline-warning btn-sm">Suspend</button>
+                              </form>
+                              <!-- <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModalCenter"
+                                  id="#modalCenter">Suspend</button> -->
+                            @else
+                              <form action="{{route('admin.restore-account')}}" method="post">
+                                  {{csrf_field()}}
+                                <input type="text" value="inf" name="unit" style="display: none;">
+                                <input type="text" value="{{$inf->email}}" name="restore_inf" style="display: none;">
+                                <button type="submit" class="btn btn-outline-info btn-sm">Restore</button>
+                              </form>
+                            @endif
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal"
                             data-target="#exampleModalScrollable" id="#modalScroll">Remove</button>
                           </td>
                         </tr>
@@ -274,13 +344,34 @@
                           <td>{{$dca->email}}</td>
                           <td>{{$dca->name}}</td>
                           <td>Data Center Admin</td>
-                          <td>Active</td>
                           <td>
-                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModalCenter"
-                                id="#modalCenter">Suspend</button>
+                            @if($dca->is_active == 1)
+                              Active
+                            @else
+                              Inactive
+                            @endif
                           </td>
                           <td>
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                            @if($dca->is_active == 1)
+                              <form action="{{route('admin.suspend-account')}}" method="post">
+                                  {{csrf_field()}}
+                                <input type="text" value="dca" name="unit" style="display: none;">
+                                <input type="text" value="{{$dca->email}}" name="suspend_dca" style="display: none;">
+                                <button type="submit" class="btn btn-outline-warning btn-sm">Suspend</button>
+                              </form>
+                              <!-- <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModalCenter"
+                                  id="#modalCenter">Suspend</button> -->
+                            @else
+                              <form action="{{route('admin.restore-account')}}" method="post">
+                                  {{csrf_field()}}
+                                <input type="text" value="dca" name="unit" style="display: none;">
+                                <input type="text" value="{{$dca->email}}" name="restore_dca" style="display: none;">
+                                <button type="submit" class="btn btn-outline-info btn-sm">Restore</button>
+                              </form>
+                            @endif
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal"
                             data-target="#exampleModalScrollable" id="#modalScroll">Remove</button>
                           </td>
                         </tr>
@@ -303,7 +394,7 @@
                                 </button>
                                 </div>
                                 <div class="modal-body">
-                                Are you sure you want to suspend ...?
+                                Are you sure you want to suspend?
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-outline-primary" data-dismiss="modal">No</button>

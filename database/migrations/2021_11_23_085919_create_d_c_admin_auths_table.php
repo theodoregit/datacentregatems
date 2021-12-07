@@ -18,6 +18,7 @@ class CreateDCAdminAuthsTable extends Migration
             $table->string('name');
             $table->string('email', 250)->unique();
             $table->string('password');
+            $table->boolean('is_active')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });

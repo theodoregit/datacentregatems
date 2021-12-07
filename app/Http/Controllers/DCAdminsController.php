@@ -24,13 +24,18 @@ class DCAdminsController extends Controller
      */
 
     public function requests(){
-        $approved_requests = AccessRequests::where('is_approved', '1')->get();
+        $approved_requests = AccessRequests::where('is_approved', '1')->orderBy('date', 'DESC')->get();
         return view('dc-admins.requests')->with('approved_requests', $approved_requests);
     } 
 
     public function requestForm(){
         return view('dc-admins.request-form-dc-admin');
     } 
+
+    public function requestDetails($requestno){
+        $request = AccessRequests::where('requestno', '=', $requestno)->first();
+        return view('dc-admins.requestdetails')->with('approved_requests', $request);
+    }
 
     public function index()
     {

@@ -11,6 +11,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $this->call(SuperAdminAuthSeeder::class);
+        $this->call(DCManagerAuthSeeder::class);
+        $this->call(InfManagerAuthSeeder::class);
+        $this->call(UnitManagerAuthSeeder::class);
+        $this->call(DCAdminAuthSeeder::class);
+        $this->call(DCReceptionAuthSeeder::class);
     }
 }
