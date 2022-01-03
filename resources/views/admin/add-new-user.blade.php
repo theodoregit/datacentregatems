@@ -19,22 +19,13 @@
   <div id="wrapper">
     <!-- Sidebar -->
     <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('home')}}">
         <div class="sidebar-brand-icon">
           <img src="img/logo/cbe_logo.PNG">
         </div>
         <div class="sidebar-brand-text mx-3">DCGMS</div>
       </a>
       <hr class="sidebar-divider my-0">
-      <!-- <li class="nav-item active">
-        <a class="nav-link" href="index.html">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Home</span></a>
-      </li> -->
-      <!-- <hr class="sidebar-divider"> -->
-      <!-- <div class="sidebar-heading">
-        Features
-      </div> -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap"
           aria-expanded="true" aria-controls="collapseBootstrap">
@@ -43,12 +34,8 @@
         </a>
         <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Choose user type</h6>
-            <a class="collapse-item" href="{{route('unit-manager-account')}}">IS Unit Manager</a>
-            <a class="collapse-item" href="{{route('dc-manager-account')}}">Data Centre Manager</a>
-            <a class="collapse-item" href="{{route('inf-manager-account')}}">Infratructure Manager</a>
-            <a class="collapse-item" href="{{route('dc-admin-account')}}">Data Center Admin</a>
-            <a class="collapse-item" href="{{route('dc-reception-account')}}">Data Center Reception</a>
+            <h6 class="collapse-header">new user</h6>
+            <a class="collapse-item" href="#">New User</a>
           </div>
         </div>
       </li>
@@ -85,7 +72,7 @@
                 aria-labelledby="searchDropdown">
                 <form class="navbar-search">
                   <div class="input-group">
-                    <input type="text" class="form-control bg-light border-1 small" placeholder="search here ..."
+                    <input type="text" class="form-control bg-light border-1 small" placeholder="What do you want to look for?"
                       aria-label="Search" aria-describedby="basic-addon2" style="border-color: #9106bb;">
                     <div class="input-group-append">
                       <button class="btn btn-primary" type="button">
@@ -100,7 +87,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-fw"></i>
-                <!-- <span class="badge badge-danger badge-counter">3+</span> -->
+                <span class="badge badge-danger badge-counter">3+</span>
               </a>
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="alertsDropdown">
@@ -114,6 +101,8 @@
                     </div>
                   </div>
                   <div>
+                    <div class="small text-gray-500">December 12, 2019</div>
+                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
                   </div>
                 </a>
                 <a class="dropdown-item d-flex align-items-center" href="#">
@@ -123,6 +112,8 @@
                     </div>
                   </div>
                   <div>
+                    <div class="small text-gray-500">December 7, 2019</div>
+                    $290.29 has been deposited into your account!
                   </div>
                 </a>
                 <a class="dropdown-item d-flex align-items-center" href="#">
@@ -132,17 +123,12 @@
                     </div>
                   </div>
                   <div>
+                    <div class="small text-gray-500">December 2, 2019</div>
+                    Spending Alert: We've noticed unusually high spending for your account.
                   </div>
                 </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#"></a>
+                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
               </div>
-            </li>
-            <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-moon fa-fw"></i>
-                <!-- <span class="badge badge-danger badge-counter">3+</span> -->
-              </a>
             </li>
             <div class="topbar-divider d-none d-sm-block"></div>
             <li class="nav-item dropdown no-arrow">
@@ -172,7 +158,6 @@
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
               </div>
             </li>
-            <!-- <div class="topbar-divider d-none d-sm-block"></div> -->            
           </ul>
         </nav>
         <!-- Topbar -->
@@ -180,75 +165,116 @@
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">My Profile</h1>
+            <h1 class="h3 mb-0 text-gray-800">Add New User</h1>
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a style="color: #460d46" href="./">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Profile</li>
+              <li class="breadcrumb-item"><a href="./">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">New User</li>
             </ol>
           </div>
-        
+
           <div class="row">
             <div class="col-lg-4">
-              <img src="img/boy.png" class="rounded mx-auto d-block" alt="your photo">
+              <!-- Form Basic -->
+              <div class="card mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold" style="color: #460d46">Create New Account</h6>
+                </div>
+                <div class="card-body">
+                  <form method="post" action="{{route('add-new-user.submit')}}">
+                    {{csrf_field()}}
+                    <div class="form-group">
+                      <!-- <label for="exampleInputFullname">Full Name</label> -->
+                      <input class="form-control form-control mb-3" type="text" name="name" placeholder="Full Name">
+                      <!-- <label for="exampleInputEmail1">Email address</label> -->
+                      <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp"
+                        placeholder="Email address">
+                      <small id="emailHelp" class="form-text text-muted">Use email with cbe's domain.</small>
+                      <!-- <label for="exampleInputUnit">Select IS Unit</label> -->
+                      <select class="select2-single-placeholder form-control" name="role" id="select2SinglePlaceholder">
+                        <option value="">Select User Type</option>
+                        <option value="2">Unit Manager</option>
+                        <option value="3">Data Center Manager</option>
+                        <option value="4">Infratructure Manager</option>
+                        <option value="5">Data Center Staff</option>
+                        <option value="6">Data Center Reception</option>
+                      </select><br>
+                      <select class="select2-single-placeholder form-control" name="unit" id="select2SinglePlaceholder">
+                        <option value="">Select Unit</option>
+                        <option>Infratructure Management</option>
+                        <option>IS Application Management and Customization</option>
+                        <option>IS Security</option>
+                        <option>IS Operations and BC/DR Management</option>
+                        <option>Business Analysis and IS PMO</option>
+                        <option>Information Management</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <!-- <label for="exampleInputPassword1">Password</label> -->
+                      <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Password">
+                    </div>
+                    <button type="submit" class="btn" style="background-color: #460d46">Submit</button>
+                  </form>
+                </div>
+              </div>
             </div>
 
             <div class="col-lg-8">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="card">
-                        <div class="card-body">
-                            <p class="card-text"><strong>
-                                <input type="text" class="form-control" name="name" value="Full Name" id="">
-                            </strong><i class="fas fa-edit float-right"></i></p>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="card">
-                        <div class="card-body">
-                            <p class="card-text"><strong>+251-984742593</strong><i class="fas fa-edit float-right"></i></p>
-                        </div>
-                        </div>
-                    </div>
-                </div><hr>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="card">
-                        <div class="card-body">
-                            <p class="card-text"><strong>Your Name</strong></p>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="card">
-                        <div class="card-body">
-                            <p class="card-text"><strong>+251 984742593</strong></p>
-                        </div>
-                        </div>
-                    </div>
-                </div><hr>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="card">
-                        <div class="card-body">
-                            <p class="card-text"><strong>Your Name</strong></p>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="card">
-                        <div class="card-body">
-                            <p class="card-text"><strong>+251 984742593</strong></p>
-                        </div>
-                        </div>
-                    </div>
+              <div class="card mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold" style="color: #460d46">User Accounts</h6>
                 </div>
+                <div class="table-responsive p-3">
+                  <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>Full Name</th>
+                        <th>Unit</th>
+                        <th>Email</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach($users as $user)
+                      <tr>
+                        <td>{{$user->name}}</td>
+                        <td>
+                          <?php
+                            switch ($user->unit) {
+                              case '01':
+                                echo 'Business Analysis and IS PMO';
+                                break;
+                              case '02':
+                                echo 'Information Management';
+                                break;
+                              case '03':
+                                echo 'Infratructure Management';
+                                break;
+                              case '04':
+                                echo 'IS Application Management and Customization';
+                                break;
+                              case '05':
+                                echo 'IS Operations and BC/DR Management';
+                                break;
+                              case '06':
+                                echo 'IS Security';
+                                break;
+                              
+                              default:
+                                //
+                                break;
+                            }
+                          ?>
+                        </td>
+                        <td>{{$user->email}}</td>
+                      </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
-          
-          
 
-
+          <!-- Modal Logout -->
           <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -297,7 +323,7 @@
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
   <script src="js/ruang-admin.min.js"></script>
   <script src="vendor/chart.js/Chart.min.js"></script>
-  <script src="js/demo/chart-area-demo.js"></script>
+  <script src="js/demo/chart-area-demo.js"></script>  
 </body>
 
 </html>

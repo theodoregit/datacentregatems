@@ -313,7 +313,7 @@
                             <hr>
                             <label for="exampleInputEmail1"><i style="color: black;">Scanned Letter(if any)</i></label>
                             <div class="custom-file">
-                              <input type="file" class="form-control custom-file-input" id="customFile" name="letter" required>
+                              <input type="file" class="form-control custom-file-input" id="customFile"  name="letter">
                               <label class="custom-file-label" for="customFile">Choose file</label>
                             </div>
                           </div>

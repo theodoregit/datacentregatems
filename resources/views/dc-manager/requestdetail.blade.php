@@ -194,29 +194,29 @@
                         @endif
                     </li>
                 </ul>
-                <table class="table table-bordered align-items-center table-flush table-hover" id="dataTableHover">
-                    <thead class="thead-dark">
+                <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                    <thead class="thead-light">
                         <tr>
                             <th>Full Name</th>
                             <th>ID Number</th>
                             <th>Phone Number</th>
                         </tr>
                     </thead>
-                    <tbody style="color: black; font-weight: bold; font-size: larger">
+                    <tbody style="font-weight: bold; font-size: larger">
                         <tr>
                             <td>{{$request->fullname}}</td>
                             <td>{{$request->id_number}}</td>
                             <td>{{$request->phone_number}}</td>
                         </tr>
                     </tbody>
-                    <thead class="thead-dark">
+                    <thead class="thead-light">
                         <tr>
                             <th>Personnels</th>
                             <th>Impact</th>
                             <th>Purpose</th>
                         </tr>
                     </thead>                
-                    <tbody style="color: black; font-weight: bold; font-size: larger">
+                    <tbody style="font-weight: bold; font-size: larger">
                         <tr>
                             <td>
                                 <?php
@@ -228,8 +228,8 @@
                         </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered align-items-center table-flush table-hover" id="dataTableHover">
-                    <thead class="thead-dark">
+                <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                    <thead class="thead-light">
                         <tr>
                             <th>Access Required to</th>
                             <th>Access Time</th>
@@ -237,7 +237,7 @@
                             <th>Locations</th>
                         </tr>
                     </thead>
-                    <tbody style="color: black; font-weight: bold; font-size: larger">
+                    <tbody style="font-weight: bold; font-size: larger">
                         <tr>
                             <td>{{$request->access_req_location}}</td>
                             <td>{{$request->access_time}}</td>
@@ -245,7 +245,7 @@
                             <td>{{$request->location}}</td>
                         </tr>
                     </tbody>
-                    <thead class="thead-dark">
+                    <thead class="thead-light">
                         <tr>
                             <th>Access is to begin on</th>
                             <th>Access is to end at</th>
@@ -253,15 +253,11 @@
                             <th>Remaining days</th>
                         </tr>
                     </thead>
-                    <tbody style="color: black; font-weight: bold; font-size: larger">
+                    <tbody style="font-weight: bold; font-size: larger">
                         <tr>
                             <td>{{$request->starting_date}}</td>
                             <td>{{$request->end_date}}</td>
-                            <td>
-                                <?php
-                                    echo $request->end_date - $request->starting_date;
-                                ?>
-                            </td>
+                            <td>{{$request->visiting_days}} </td>
                             <td>{{$request->remaining_days}}</td>
                         </tr>
                     </tbody>

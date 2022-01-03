@@ -43,26 +43,35 @@
         </a>
         <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Choose user type</h6>
-            <a class="collapse-item" href="{{route('unit-manager-account')}}">IS Unit Manager</a>
-            <a class="collapse-item" href="{{route('dc-manager-account')}}">Data Centre Manager</a>
-            <a class="collapse-item" href="{{route('inf-manager-account')}}">Infratructure Manager</a>
-            <a class="collapse-item" href="{{route('dc-admin-account')}}">Data Center Admin</a>
-            <a class="collapse-item" href="{{route('dc-reception-account')}}">Data Center Reception</a>
+            <h6 class="collapse-header">new user</h6>
+            <a class="collapse-item" href="{{route('add-new-user')}}">New User</a>
           </div>
         </div>
       </li>
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForm" aria-expanded="true"
           aria-controls="collapseForm">
-          <i class="far fa-fw fa-list-alt"></i>
-          <span>Manage User Accounts</span>
+          <i class="fa fa-wrench"></i>
+          <span>Manage Accounts</span>
         </a>
         <div id="collapseForm" class="collapse" aria-labelledby="headingForm" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Manage accounts</h6>
             <a class="collapse-item" href="{{route('reset-password')}}">Reset Passwords</a>
             <a class="collapse-item" href="{{route('remove-account')}}">Remove Accounts</a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForm2" aria-expanded="true"
+          aria-controls="collapseForm2">
+          <i class="fa fa-cogs"></i>
+          <span>Manage D.Centre</span>
+        </a>
+        <div id="collapseForm2" class="collapse" aria-labelledby="headingForm" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">manage data center</h6>
+            <a class="collapse-item" href="{{route('manage-datacentres')}}">Data Centres</a>
           </div>
         </div>
       </li>

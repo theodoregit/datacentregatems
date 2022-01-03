@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\AccessRequests;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
+use App\DataCentres;
 
 class ISUnitManagerController extends Controller
 {
@@ -14,10 +15,8 @@ class ISUnitManagerController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth:unit-manager');
-    }
+    protected $today;
+    protected $remaining_days;
 
     /**
      * Display a listing of the resource.
@@ -36,7 +35,8 @@ class ISUnitManagerController extends Controller
                 ->with('confirmed', AccessRequests::where('unit', '=', Auth::user()->unit)->where('status', '=', 'confirmed')->get())
                 ->with('denied', AccessRequests::where('unit', '=', Auth::user()->unit)->where('status', '=', 'denied')->get())
                 ->with('approved', AccessRequests::where('unit', '=', Auth::user()->unit)->where('status', '=', 'approved')->get())
-                ->with('rejected', AccessRequests::where('unit', '=', Auth::user()->unit)->where('status', '=', 'rejected')->get());
+                ->with('rejected', AccessRequests::where('unit', '=', Auth::user()->unit)->where('status', '=', 'rejected')->get())
+                ->with('expired', AccessRequests::where('unit', '=', Auth::user()->unit)->where('status', '=', 'expired')->get());
     }
     
     //revoke a request
@@ -85,15 +85,38 @@ class ISUnitManagerController extends Controller
         $letter = $request->file('letter');
         $letter = $letter->getClientOriginalName().time();
 
+        //visiting days
         $startdate = new DateTime(str_replace("/","-",$request->startdate));
         $enddate = new DateTime(str_replace("/","-",$request->enddate));
-
         $interval = $startdate->diff($enddate);
         $interval = $interval->format('%R%a days');
-        
         $days = str_replace('+', '', $interval);
         $days = str_replace('days', '', $days);
+
+        //remaining days
+        $today = new DateTime(date('Y-m-d'));
+        $remaining_days = $today->diff($enddate);
+        $remaining_days = $remaining_days->format('%R%a days');
+        $remaining_days = str_replace('days', '', $remaining_days);
+        
+        if($remaining_days > 0){
+            $remaining_days = $days;
+        }
+        else if($remaining_days < 0){
+            $remaining_days = $today->diff($enddate);
+            $remaining_days = $remaining_days->format('%R%a days');
+            $remaining_days = str_replace('days', '', $remaining_days);
+        }
+
         // echo $days;
+        $personnel4 = $request['personnel4'];
+        $personnel5 = $request['personnel5'];
+        $personnel6 = $request['personnel6'];
+        $personnel7 = $request['personnel7'];
+        $personnel8 = $request['personnel8'];
+        $personnel9 = $request['personnel9'];
+        $personnel10 = $request['personnel10'];
+
         // dd($request->all());
         // $req_no = 1;
         // $req_id = date('d').date('m').substr(date('Y'), 2).$unit.mt_rand(1000,9999);
@@ -148,20 +171,21 @@ class ISUnitManagerController extends Controller
             'date' => date('Y-m-d h:m:s'),
             'starting_date' => $request->startdate,
             'end_date' => $request->enddate,
-            'remaining_days' => $days,
+            'visiting_days' => $days,
+            'remaining_days' => $remaining_days,
             'access_req_location' => $request->accessrequiredto,
             'access_time' => implode(", ", $request->accesstime), 
             'areas_tobe_accessed' => implode(", ", $request->areastobeaccessed),
             'personnel1' => $request->personnel1,
             'personnel2' => $request->personnel2,
             'personnel3' => $request->personnel3,
-            'personnel4' => $request->personnel4,
-            'personnel5' => $request->personnel5,
-            'personnel6' => $request->personnel6,
-            'personnel7' => $request->personnel7,
-            'personnel8' => $request->personnel8,
-            'personnel9' => $request->personnel9,
-            'personnel10' => $request->personnel10,
+            'personnel4' => $personnel4,
+            'personnel5' => $personnel5,
+            'personnel6' => $personnel6,
+            'personnel7' => $personnel7,
+            'personnel8' => $personnel8,
+            'personnel9' => $personnel9,
+            'personnel10' => $personnel10,
             'escortingteam' => $request->escortingteam,
             'escorts' => $request->escorts,
             'location' => $request->location,
@@ -222,6 +246,48 @@ class ISUnitManagerController extends Controller
     }
 
     public function requestDetails($requestno){
+        //remaining days is equal to enddate minus today
+        $enddate = AccessRequests::where('requestno', $requestno)->pluck('end_date');
+        $startdate = AccessRequests::where('requestno', $requestno)->pluck('starting_date');
+
+        $enddate = str_replace('[', '', $enddate);
+        $enddate = str_replace(']', '', $enddate);
+        $enddate = str_replace('\\', '', $enddate);
+        $enddate = str_replace('"', '', $enddate);
+        $enddate = str_replace('/', '-', $enddate);
+
+        $startdate = str_replace('[', '', $startdate);
+        $startdate = str_replace(']', '', $startdate);
+        $startdate = str_replace('\\', '', $startdate);
+        $startdate = str_replace('"', '', $startdate);
+        $startdate = str_replace('/', '-', $startdate);
+
+        $startdate = new DateTime($startdate);
+        $enddate = new DateTime($enddate);
+        
+        $interval = $startdate->diff($enddate);
+        $interval = $interval->format('%R%a days');
+        $visiting_days = str_replace('+', '', $interval);
+        $visiting_days = str_replace('days', '', $visiting_days);
+
+        $today = new DateTime(date('Y-m-d'));
+        $remaining_days = $today->diff($enddate);
+        $remaining_days = $remaining_days->format('%R%a days');
+        $remaining_days = str_replace('days', '', $remaining_days);
+        $remaining_days = $remaining_days+0;
+        
+        
+        if($remaining_days > $visiting_days){
+            $remaining_days = $visiting_days;
+        }
+        
+        $access_request = AccessRequests::where('requestno', '=', $requestno)->first()->update(['remaining_days' => $remaining_days, 'status' => 'pending']); //pending???
+        //what to do if remaining days are less than zero?
+        if($remaining_days < 0){
+            $access_request = AccessRequests::where('requestno', '=', $requestno)->first()->update(['status' => 'expired']);
+            $access_request = AccessRequests::where('requestno', '=', $requestno)->first()->update(['remaining_days' => 0]);
+        }
+        
         $request = AccessRequests::where('requestno', '=', $requestno)->first();
         return view('is-unit-manager.requestdetail')->with('request', $request);
     }

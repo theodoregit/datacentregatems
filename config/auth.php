@@ -45,54 +45,6 @@ return [
             'driver' => 'token',
             'provider' => 'users',
         ],
-        
-        'unit-manager' => [
-            'driver' => 'session',
-            'provider' => 'unit_manager',
-        ],
-
-        'unit-manager-api' => [
-            'driver' => 'token',
-            'provider' => 'unit_manager',
-        ],
-        
-        'dc-manager' => [
-            'driver' => 'session',
-            'provider' => 'dc_manager',
-        ],
-
-        'dc-manager-api' => [
-            'driver' => 'token',
-            'provider' => 'dc_manager',
-        ],
-        
-        'inf-manager' => [
-            'driver' => 'session',
-            'provider' => 'inf_manager',
-        ],
-
-        'inf-manager-api' => [
-            'driver' => 'token',
-            'provider' => 'inf_manager',
-        ],
-        'dc-admin' => [
-            'driver' => 'session',
-            'provider' => 'dc_admin',
-        ],
-
-        'dc-admin-api' => [
-            'driver' => 'token',
-            'provider' => 'dc_admin',
-        ],
-        'dc-reception' => [
-            'driver' => 'session',
-            'provider' => 'dc_reception',
-        ],
-
-        'dc-reception-api' => [
-            'driver' => 'token',
-            'provider' => 'dc_reception',
-        ],
     ],
 
     /*
@@ -116,31 +68,6 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
-        ],
-        
-        'unit_manager' => [
-            'driver' => 'eloquent',
-            'model' => App\UnitManagerAuth::class,
-        ],
-
-        'dc_manager' => [
-            'driver' => 'eloquent',
-            'model' => App\DCManagerAuth::class,
-        ],
-
-        'inf_manager' => [
-            'driver' => 'eloquent',
-            'model' => App\InfManagerAuth::class,
-        ],
-
-        'dc_admin' => [
-            'driver' => 'eloquent',
-            'model' => App\DCAdminAuth::class,
-        ],
-
-        'dc_reception' => [
-            'driver' => 'eloquent',
-            'model' => App\DCReceptionAuth::class,
         ],
 
         // 'users' => [
@@ -167,36 +94,6 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table' => 'password_resets',
-            'expire' => 60,
-        ],
-
-        'unit-manager' => [
-            'provider' => 'unit_manager',
-            'table' => 'password_resets',
-            'expire' => 60,
-        ],
-
-        'dc-manager' => [
-            'provider' => 'dc_manager',
-            'table' => 'password_resets',
-            'expire' => 60,
-        ],
-
-        'inf-manager' => [
-            'provider' => 'inf_manager',
-            'table' => 'password_resets',
-            'expire' => 60,
-        ],
-
-        'dc-admin' => [
-            'provider' => 'dc_admin',
-            'table' => 'password_resets',
-            'expire' => 60,
-        ],
-
-        'dc-reception' => [
-            'provider' => 'dc_reception',
             'table' => 'password_resets',
             'expire' => 60,
         ],

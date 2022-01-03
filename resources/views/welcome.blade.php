@@ -82,50 +82,7 @@
             <i class="fa fa-bars"></i>
           </button>
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown no-arrow mx-1">
-              <a class="btn btn-outline-secondary dropdown-toggle" style="color: #FFD700;" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                
-                <strong>Login</strong>
-                <!-- <span class="badge badge-danger badge-counter">3+</span> -->
-              </a>
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="alertsDropdown">
-                <h6 class="dropdown-header">
-                  Login as ... 
-                </h6>
-                <a class="dropdown-item d-flex align-items-center" href="{{route('login')}}">
-                  <div class="mr-3">
-                    Super Admin                   
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="{{route('unit-manager.login')}}">
-                  <div class="mr-3">
-                    IS Unit Manager
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="{{route('dc-manager.login')}}">
-                  <div class="mr-3">
-                    Data Centre Manager
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="{{route('inf-manager.login')}}">
-                  <div class="mr-3">
-                    Infrastructure Manager
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="{{route('dc-admin.login')}}">
-                  <div class="mr-3">
-                    Data Center Staff
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="{{route('dc-reception.login')}}">
-                  <div class="mr-3">
-                    Data Center Reception
-                  </div>
-                </a>
-              </div>
-            </li>
+            
             
             <!-- <div class="topbar-divider d-none d-sm-block"></div> -->            
           </ul>
@@ -145,28 +102,162 @@
             <!-- <marquee  behavior="scroll" direction="up">         
               <img src="img/logo/cbe_logo.png" class="rotate img-fluid rounded mx-auto d-block" alt="cbe logo">
             </marquee> -->
-          <div class="row">
-            <div class="col-lg-4">
-                <img src="img/dc.png" style="margin-top: 15%;" class="img-fluid rounded mx-auto d-block" alt="dc">
-            </div>
-            <div class="col-lg-1"></div><div class="topbar-divider d-none d-sm-block"></div>
-            <div class="col-lg-5">
-                <p class="text-center" style="margin-top: 25%;">
-                                    <h5 class="text-center"><u>Data Centre Gate Management System</u></h5>
-                                    <p class="text-center">
-                                        This system automates the most traditional and cumbersome way of requesting
-                                        physical access to CBE's data centres.
-                                    </p>
-                                    <p class="text-center">
-                                        Unit Managers, Data Centre Manager, Infratructure Dirctor and Data Centre Staffs
-                                        can use this system in their respective role.
-                                    </p>
-                                    
-                </p>
+
+            <div class="row">
+              <div class="col-md-9">
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                  <!-- <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" style="background-color: grey" class="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1" style="background-color: grey"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2" style="background-color: grey"></li>
+                  </ol> -->
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <div class="row">
+                        <div class="col-lg-4">
+                            <img src="img/dc.png" style="margin-top: 15%;" class="img-fluid rounded mx-auto d-block" alt="dc">
+                        </div>
+                        <div class="col-lg-1"></div><div class="topbar-divider d-none d-sm-block"></div>
+                        <div class="col-lg-5">
+                            <p class="text-center" style="margin-top: 25%;">
+                                                <h5 class="text-center"><u>Data Centre Gate Management System</u></h5>
+                                                <p class="text-center">
+                                                    This system automates the most traditional and cumbersome way of requesting
+                                                    physical access to CBE's data centres.
+                                                </p>
+                                                <p class="text-center">
+                                                    Unit Managers, Data Centre Manager, Infratructure Dirctor and Data Centre Staffs
+                                                    can use this system in their respective role.
+                                                </p>
+                                                
+                            </p>
+                        </div>
+
+                        <div class="col-lg-2"></div>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <div class="row">
+                        <div class="col-lg-4">
+                            <img src="img/dc4.jpg" style="margin-top: 15%;" class="img-fluid rounded mx-auto d-block" alt="dc">
+                        </div>
+                        <div class="col-lg-1"></div><div class="topbar-divider d-none d-sm-block"></div>
+                        <div class="col-lg-5">
+                            <p class="text-center" style="margin-top: 25%;">
+                                                <h5 class="text-center"><u>Data Centre, what is it exactly?</u></h5>
+                                                <p class="text-center">
+                                                    To its simplest, a data center is a physical facility that organizations 
+                                                    use to house their critical applications and data.
+                                                <p class="text-center">
+                                                    A data center's design is based on a network of computing and storage resources that enable the delivery 
+                                                    of shared applications and data. 
+                                                </p>
+                                                
+                            </p>
+                        </div>
+
+                        <div class="col-lg-2"></div>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <div class="row">
+                        <div class="col-lg-4">
+                            <img src="img/dc3.png" style="margin-top: 15%;" class="img-fluid rounded mx-auto d-block" alt="dc">
+                        </div>
+                        <div class="col-lg-1"></div><div class="topbar-divider d-none d-sm-block"></div>
+                        <div class="col-lg-5">
+                            <p class="text-center" style="margin-top: 25%;">
+                                                <h5 class="text-center"><u>Data Centre Security</u></h5>
+                                                <p class="text-center">
+                                                Data center security refers to the physical practices and virtual technologies 
+                                                used to protect a data center from external threats and attacks. A data center 
+                                                is a facility that stores IT infrastructure ...
+                                                </p>
+                                                <p class="text-center">
+                                                Data centers provide services such as data storage, backup and recovery, data management and networking. 
+                                                Because data centers hold sensitive or...
+                                                </p>
+                                                
+                            </p>
+                        </div>
+
+                        <div class="col-lg-2"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" style="background-color: grey" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" style="background-color: grey" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+                    {{ csrf_field() }}
+                      <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                        <label for="email">Email</label>
+                          <input type="text" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                          @if ($errors->has('email'))
+                            <span class="help-block">
+                              <strong style="color: red;">Please enter valid email and password.</strong>
+                            </span>
+                          @endif
+                      </div>
+                      <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                        <label for="password">Password</label>
+                          <input id="password" type="password" class="form-control" name="password" required>
+                          @if ($errors->has('password'))
+                            <span class="help-block">
+                              <strong>{{ $errors->first('password') }}</strong>
+                            </span>
+                          @endif
+                      </div>
+                      <div class="form-group">
+                        <!-- <div class="col-md-6 col-md-offset-4">
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
+                            </label>
+                          </div>
+                        </div> -->
+                      </div>
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-outline-info">Login</button>
+                      </div>
+                      <a class="" href="{{ route('password.request') }}">
+                            <small>Forgot Your Password?</small>
+                          </a>
+                    </form>
+                  <!-- <form action="{{route('all-login')}}" method="post">
+                    {{csrf_field()}}
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" name="email">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" class="form-control" id="">
+                    <label for="role">Role</label>
+                    <select name="role" class="form-control" id="">
+                      <option value="super admin">Super Admin</option>
+                      <option value="unit manager">Unit Manager</option>
+                      <option value="dc manager">DC Manager</option>
+                      <option value="inf manager">Inf Manager</option>
+                      <option value="dc admin">DC Staff</option>
+                      <option value="dc reception">DC Reception</option>
+                    </select>
+                    <br>
+                    <button type="submit" class="btn btn-outline-info">Login</button>
+                  </form> -->
+                </div>
+              </div>
             </div>
 
-            <div class="col-lg-2"></div>
-          </div>
+
+
+          
           
           
              

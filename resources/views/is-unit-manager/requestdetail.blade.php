@@ -181,7 +181,7 @@
             </div>
             <div class="col-md-8">
               <table class="table table-bordered align-items-center table-flush table-hover" id="dataTableHover">
-                  <thead class="thead-dark">
+                  <thead class="thead-light">
                       <tr>
                           <th>Full Name</th>
                           <th>ID Number</th>
@@ -195,7 +195,7 @@
                           <td>+251-{{$request->phone_number}}</td>
                       </tr>
                   </tbody>
-                  <thead class="thead-dark">
+                  <thead class="thead-light">
                       <tr>
                           <th>Personnels</th>
                           <th>Impact</th>
@@ -215,7 +215,7 @@
                   </tbody>
               </table>
               <table class="table table-bordered align-items-center table-flush table-hover" id="dataTableHover">
-                  <thead class="thead-dark">
+                  <thead class="thead-light">
                       <tr>
                           <th>Access Required to</th>
                           <th>Access Time</th>
@@ -231,7 +231,7 @@
                           <td>{{$request->location}}</td>
                       </tr>
                   </tbody>
-                  <thead class="thead-dark">
+                  <thead class="thead-light">
                       <tr>
                           <th>Access is to begin on</th>
                           <th>Access is to end at</th>
@@ -243,11 +243,7 @@
                       <tr>
                           <td>{{$request->starting_date}}</td>
                           <td>{{$request->end_date}}</td>
-                          <td>
-                              <?php
-                                  echo $request->end_date - $request->starting_date;
-                              ?>
-                          </td>
+                          <td>{{$request->visiting_days}}</td>
                           <td>{{$request->remaining_days}}</td>
                       </tr>
                   </tbody>

@@ -179,7 +179,7 @@
                     role="tab"
                     aria-controls="ex3-tabs-1"
                     aria-selected="true"
-                    ><h4 style=""><span class="badge badge-secondary"><i class="fa fa-list" aria-hidden="true"></i> All Requests</span> </h4></a
+                    ><h4 style=""><span class="badge badge-outline-secondary"><i class="fa fa-list" aria-hidden="true"></i> All Requests</span> </h4></a
                   >
                 </li>
                 <li class="nav-item" role="presentation">
@@ -191,7 +191,7 @@
                     role="tab"
                     aria-controls="ex3-tabs-2"
                     aria-selected="false"
-                    ><h4 style=""><span class="badge badge-primary"><i class="fa fa-hourglass-end" aria-hidden="true"></i> Pending</span> </h4>  </a
+                    ><h4 style=""><span class="badge badge-outline-primary"><i class="fa fa-hourglass-end" aria-hidden="true"></i> Pending</span> </h4>  </a
                   >
                 </li>
                 <li class="nav-item" role="presentation">
@@ -203,7 +203,7 @@
                     role="tab"
                     aria-controls="ex3-tabs-3"
                     aria-selected="false"
-                    ><h4 style=""><span class="badge badge-info"><i class="fa fa-check" aria-hidden="true"></i> Confirmed</span> </h4></a
+                    ><h4 style=""><span class="badge badge-outline-info"><i class="fa fa-check" aria-hidden="true"></i> Confirmed</span> </h4></a
                   >
                 </li>
                 <li class="nav-item" role="presentation">
@@ -215,7 +215,7 @@
                     role="tab"
                     aria-controls="ex3-tabs-4"
                     aria-selected="false"
-                    ><h4 style=""><span class="badge badge-warning"><i class="fa fa-ban" aria-hidden="true"></i> Denied</span> </h4></a
+                    ><h4 style=""><span class="badge badge-outline-warning"><i class="fa fa-ban" aria-hidden="true"></i> Denied</span> </h4></a
                   >
                 </li>
                 <li class="nav-item" role="presentation">
@@ -227,7 +227,7 @@
                     role="tab"
                     aria-controls="ex3-tabs-5"
                     aria-selected="false"
-                    ><h4 style=""><span class="badge badge-success"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Approved</span> </h4></a
+                    ><h4 style=""><span class="badge badge-outline-success"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Approved</span> </h4></a
                   >
                 </li>
                 <li class="nav-item" role="presentation">
@@ -239,7 +239,19 @@
                     role="tab"
                     aria-controls="ex3-tabs-6"
                     aria-selected="false"
-                    ><h4 style=""><span class="badge badge-danger"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Rejected</span> </h4></a
+                    ><h4 style=""><span class="badge badge-outline-danger"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Rejected</span> </h4></a
+                  >
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a
+                    class="nav-link"
+                    id="ex3-tab-7"
+                    data-mdb-toggle="tab"
+                    href="#expired"
+                    role="tab"
+                    aria-controls="ex3-tabs-7"
+                    aria-selected="false"
+                    ><h4 style=""><span class="badge badge-outline-danger"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Expired</span> </h4></a
                   >
                 </li>
               </ul>
@@ -277,11 +289,13 @@
                             <td>{{$request->access_time}}</td>
                             <td>{{$request->remaining_days}}</td>
                             <td>
-                              @if($request->is_confirmed == 0 && $request->is_denied == 0)
+                              @if($request->status == 'expired')
+                                <strong style=""><span class="badge badge-danger"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Expired</span></strong>
+                              @elseif($request->is_confirmed == 0 && $request->is_denied == 0)
                                 <strong style=""><span class="badge badge-primary"><i class="fa fa-hourglass-end" aria-hidden="true"></i> Pending</span></strong>
                               @elseif($request->is_confirmed == 0 || $request->is_denied == 1)
                                 <!-- <strong style="color: #ffa07a;"><i class="fa fa-ban" aria-hidden="true"></i> Denied</strong> -->
-                                <strong style=""><span class="badge badge-warning"><i class="fa fa-ban" aria-hidden="true"></i> Denied</span></strong>
+                                <strong style=""><span class="badge badge-warning"><i class="fa fa-ban" aria-hidden="true"></i> Denied</span></strong>                              
                               @else
                                 @if($request->is_confirmed == 1 && $request->is_approved == 1)
                                   <strong style=""><span class="badge badge-success"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Granted</span></strong>
@@ -308,12 +322,12 @@
                               ?>
                             </td>
                             <td>
-                              <a href="{{route('request-details', ['requestno' => preg_replace('/[^a-zA-Z0-9\s]/', '', $request->requestno)])}}" class="btn btn-outline-info btn-sm">Details</a>
+                              <a href="{{route('request-details', ['requestno' => preg_replace('/[^a-zA-Z0-9\s]/', '', $request->requestno)])}}" class="btn btn-outline-info btn-sm"><small>Details</small></a>
                             </td>
                             <!-- <td><button class="btn btn-info btn-sm">Details</button></td> -->
                             <td>
-                              @if($request->is_confirmed == 1 || $request->is_denied == 1)
-                              <button class="btn btn-outline-warning btn-sm" style="cursor: not-allowed; pointer-events: all !important;">Revoke</button>
+                              @if($request->is_confirmed == 1 || $request->is_denied == 1 || $request->status == 'expired')
+                              <button class="btn btn-outline-warning btn-sm" style="cursor: not-allowed; pointer-events: all !important;"><small>Revoke</small></button>
                               <?php
                                 $request_no = $request->requestno;
                               ?>
@@ -325,7 +339,7 @@
                                 </form>
                               <!-- <button class="btn btn-warning btn-sm" style="" data-toggle="modal" data-target="#exampleModalCenter"
                               id="#modalCenter2">Revoke</button> -->
-                              @endif                              
+                              @endif
                             </td>
                           </tr>
                           @endforeach
@@ -400,7 +414,7 @@
                 >
                 <div class="card mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                      <h6 class="m-0 font-weight-bold" style="color: #460d46">Pending Requests</h6>
+                      <h6 class="m-0 font-weight-bold" style="color: #460d46">Confirmed Requests</h6>
                     </div>
                     <div class="table-responsive p-3">
                       <table class="table align-items-center table-flush table-hover" id="dataTableHover">
@@ -456,7 +470,7 @@
                 >
                 <div class="card mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                      <h6 class="m-0 font-weight-bold" style="color: #460d46">Pending Requests</h6>
+                      <h6 class="m-0 font-weight-bold" style="color: #460d46">Denied Requests</h6>
                     </div>
                     <div class="table-responsive p-3">
                       <table class="table align-items-center table-flush table-hover" id="dataTableHover">
@@ -512,7 +526,7 @@
                 >
                 <div class="card mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                      <h6 class="m-0 font-weight-bold" style="color: #460d46">Pending Requests</h6>
+                      <h6 class="m-0 font-weight-bold" style="color: #460d46">Approved Requests</h6>
                     </div>
                     <div class="table-responsive p-3">
                       <table class="table align-items-center table-flush table-hover" id="dataTableHover">
@@ -568,7 +582,7 @@
                 >
                 <div class="card mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                      <h6 class="m-0 font-weight-bold" style="color: #460d46">Pending Requests</h6>
+                      <h6 class="m-0 font-weight-bold" style="color: #460d46">Rejected Requests</h6>
                     </div>
                     <div class="table-responsive p-3">
                       <table class="table align-items-center table-flush table-hover" id="dataTableHover">
@@ -624,6 +638,42 @@
                               <!-- <button class="btn btn-warning btn-sm" style="" data-toggle="modal" data-target="#exampleModalCenter"
                               id="#modalCenter2">Revoke</button> -->
                               @endif                              
+                            </td>
+                          </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="expired"
+                  role="tabpanel"
+                  aria-labelledby="ex3-tab-7"
+                >
+                  <div class="card mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                      <h6 class="m-0 font-weight-bold" style="color: #460d46">Expired Requests</h6>
+                    </div>
+                    <div class="table-responsive p-3">
+                      <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                        <thead class="thead-light">
+                          <tr>
+                            <th>Request ID</th>
+                            <th>Access Required Location</th>
+                            <th>Remaining Days</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach($expired as $request)
+                          <tr>
+                            <td>{{$request->requestno}}</td>
+                            <td>{{$request->access_req_location}}</td>
+                            <td>{{$request->remaining_days}}</td>
+                            <td>
+                              <a href="{{route('request-details', ['requestno' => preg_replace('/[^a-zA-Z0-9\s]/', '', $request->requestno)])}}" class="btn btn-outline-info btn-sm">Details</a>
                             </td>
                           </tr>
                           @endforeach

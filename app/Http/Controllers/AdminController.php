@@ -10,15 +10,15 @@ class AdminController extends Controller
      * Create a new controller instance.
      *
      * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+     */   
 
     
     public function myProfile(){
         return view('admin.profile');
+    }
+
+    public function manageDataCentre(){
+        return view('admin.data-centres');
     }
 
     /**

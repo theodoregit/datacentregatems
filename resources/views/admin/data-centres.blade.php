@@ -169,7 +169,7 @@
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Add New Data Centre Admin</h1>
+            <h1 class="h3 mb-0 text-gray-800">Add New Data Centre</h1>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="./">Home</a></li>
               <li class="breadcrumb-item active" aria-current="page">New Data Centre Admin</li>
@@ -181,24 +181,22 @@
               <!-- Form Basic -->
               <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold" style="color: #460d46">Create New Account</h6>
+                  <h6 class="m-0 font-weight-bold" style="color: #460d46">Add New Data Centre</h6>
                 </div>
                 <div class="card-body">
                   <form method="post" action="{{route('dc-admin-account.submit')}}">
                     {{csrf_field()}}
                     <div class="form-group">
                       <!-- <label for="exampleInputFullname">Full Name</label> -->
-                      <input class="form-control form-control mb-3" type="text" name="name" placeholder="Full Name">
-                      <!-- <label for="exampleInputEmail1">Email address</label> -->
-                      <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp"
-                        placeholder="Email address">
-                      <small id="emailHelp" class="form-text text-muted">Use email with cbe's domain.</small>
+                      <input class="form-control form-control mb-3" type="text" name="location" placeholder="Data Centre Location">
+                      <div class="field_wrapper">
+                        <div>
+                            <input type="text" name="field_name[]" class="form-control" name="" value="" placeholder="enter room name"/>
+                            <a href="javascript:void(0);" style="float: right;" class="add_button" title="Add field"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                        </div>
                     </div>
-                    <div class="form-group">
-                      <!-- <label for="exampleInputPassword1">Password</label> -->
-                      <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Password">
                     </div>
-                    <button type="submit" class="btn" style="background-color: #460d46">Submit</button>
+                    <button type="submit" class="btn" style="background-color: #460d46">Add</button>
                   </form>
                 </div>
               </div>
@@ -207,26 +205,9 @@
             <div class="col-lg-8">
               <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold" style="color: #460d46">Data Centre Admins</h6>
+                  <h6 class="m-0 font-weight-bold" style="color: #460d46">Data Centres</h6>
                 </div>
-                <div class="table-responsive p-3">
-                  <table class="table align-items-center table-flush table-hover" id="dataTableHover">
-                    <thead class="thead-light">
-                      <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @foreach($dcas as $dca)
-                      <tr>
-                        <td>{{$dca->name}}</td>
-                        <td>{{$dca->email}}</td>
-                      </tr>
-                      @endforeach
-                    </tbody>
-                  </table>
-                </div>
+                
               </div>
             </div>
           </div>
@@ -280,7 +261,37 @@
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
   <script src="js/ruang-admin.min.js"></script>
   <script src="vendor/chart.js/Chart.min.js"></script>
-  <script src="js/demo/chart-area-demo.js"></script>  
+  <script src="js/demo/chart-area-demo.js"></script>
+
+  
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var maxField = 11; //Input fields increment limitation
+            var number = 2; 
+            var addButton = $('.add_button'); //Add button selector
+            var wrapper = $('.field_wrapper'); //Input field wrapper
+            
+            var x = 1; //Initial field counter is 1
+            
+            //Once add button is clicked
+            $(addButton).click(function(){
+              var fieldHTML = '<div><input class="form-control" type="text" name="room'+number+'" value="" placeholder="enter room name"/>'+
+              '<a href="javascript:void(0);" style="float: right; color: red;" class="remove_button"><i class="fa fa-minus" aria-hidden="true"></i></a></div>';
+                //Check maximum number of input fields
+                if(x < maxField){ 
+                    x++; //Increment field counter
+                    number++;
+                    $(wrapper).append(fieldHTML); //Add field html
+                }
+            });
+
+            $(wrapper).on('click', '.remove_button', function(e){
+                e.preventDefault();
+                $(this).parent('div').remove(); //Remove field html
+                x--; //Decrement field counter
+            });
+        });
+    </script>
 </body>
 
 </html>

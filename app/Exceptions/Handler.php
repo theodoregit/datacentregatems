@@ -44,6 +44,12 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if($exception instanceof \Illuminate\Session\TokenMismatchException){
+              return redirect()
+                  ->back()
+                  ->withInput($request->except('_token'))
+                  ->withMessage('Your explanation message depending on how much you want to dumb it down, lol!');
+        }
         return parent::render($request, $exception);
     }
 
@@ -60,28 +66,6 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
 
-        $guard = array_get($exception->guards(), 0);
-        switch ($guard) {
-            case 'unit-manager':
-                $login = 'unit-manager.login';
-                break;
-            case 'dc-manager':
-                $login = 'dc-manager.login';
-                break;
-            case 'inf-manager':
-                $login = 'inf-manager.login';
-                break;
-            case 'dc-admin':
-                $login = 'dc-admin.login';
-                break;
-             case 'dc-reception':
-                $login = 'dc-reception.login';
-                break;
-            default:
-                $login = 'login';
-                break;
-        }
-
-        return redirect()->guest(route($login));
+        return redirect()->guest(route('login'));
     }
 }

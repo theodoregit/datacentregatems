@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(UserSeeder::class);
         $this->call(SuperAdminAuthSeeder::class);
         $this->call(DCManagerAuthSeeder::class);
         $this->call(InfManagerAuthSeeder::class);

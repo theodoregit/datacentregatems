@@ -13,7 +13,7 @@ class SuperAdminAuthSeeder extends Seeder
     {
         App\User::create([
             'name' => 'teddy',
-            'email' => 'tewodros.yesmaw@cbe.com.et',
+            'email' => 'tewodros.yesmaw2@cbe.com.et',
             'password' => bcrypt('tewodros.yesmaw@cbe.com.et')
         ]);
     }

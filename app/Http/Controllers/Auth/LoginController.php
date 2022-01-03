@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -25,7 +26,39 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo;
+    public function redirectTo(){
+        switch (Auth::user()->role) {
+            case 1:
+                $this->redirectTo = '/home';
+                return $this->redirectTo;
+                break;
+            case 2:
+                $this->redirectTo = '/unit-manager/request-form-is';
+                return $this->redirectTo;
+                break;
+            case 3:
+                $this->redirectTo = '/dc-manager/all-requests';
+                return $this->redirectTo;
+                break;
+            case 4:
+                $this->redirectTo = '/inf-manager/requests-confirmed';
+                return $this->redirectTo;
+                break;
+            case 5:
+                $this->redirectTo = '/dc-admin/approved-requests';
+                return $this->redirectTo;
+                break;
+            case 6:
+                $this->redirectTo = '/dc-reception/approved-requests';
+                return $this->redirectTo;
+                break;
+            default:
+                $this->redirectTo = '/login';
+                return $this->redirectTo;
+                break;
+        }
+    }
 
     /**
      * Create a new controller instance.
@@ -34,6 +67,6 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        // $this->middleware('guest')->except('logout');
     }
 }

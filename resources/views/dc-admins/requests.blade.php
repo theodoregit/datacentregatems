@@ -147,83 +147,6 @@
               <li class="breadcrumb-item active" aria-current="page">Access Requests</li>
             </ol>
           </div>
-
-          <!-- <div class="row">
-            <div class="col-lg-12">
-                <div class="card mb-4">
-                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold" style="color: #460d46">All Approved Access Requests</h6>
-
-                      <form class="navbar-search">
-                        <div class="input-group">
-                          <input type="text" class="form-control bg-light border-1 small" placeholder="Search Requests"
-                            aria-label="Search" aria-describedby="basic-addon2" required style="border-color: #bbb9bd;">
-                          <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">
-                              <i class="fas fa-search fa-sm"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </form>
-
-                  </div>
-                  <div class="table-responsive p-3">
-                    <table class="table align-items-center table-flush table-hover" id="dataTableHover">
-                      <thead class="thead-light">
-                          <th>Request ID</th>
-                          <th>Full Name</th>
-                          <th>Unit</th>
-                          <th>Date</th>
-                          <th>Status</th>
-                          <th></th>
-                        </tr>
-                      </thead>                    
-                      <tbody>
-                        @foreach($approved_requests as $approved_request)
-                        <tr>
-                          <td>{{$approved_request->requestno}}</td>
-                          <td>{{$approved_request->fullname}}</td>
-                          <td>
-                            <?php
-                              switch ($approved_request->unit) {
-                                case '01':
-                                  echo 'Business Analysis and IS PMO';
-                                  break;
-                                case '02':
-                                  echo 'Information Management';
-                                  break;
-                                case '03':
-                                  echo 'Infratructure Management';
-                                  break;
-                                case '04':
-                                  echo 'IS Application Management and Customization';
-                                  break;
-                                case '05':
-                                  echo 'IS Operations and BC/DR Management';
-                                  break;
-                                case '06':
-                                  echo 'IS Security';
-                                  break;
-                                
-                                default:
-                                  //
-                                  break;
-                              }
-                            ?>
-                          </td>
-                          <td>{{$approved_request->date}}</td>
-                          <td>Approved / Visited</td>
-                          <td>
-                            <a href="{{route('dc-admin-request-details', ['requestno' => preg_replace('/[^a-zA-Z0-9\s]/', '', $approved_request->requestno)])}}" class="btn btn-info btn-sm">Details</a>
-                          </td>
-                        </tr>
-                        @endforeach
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-          </div> -->
         
           <div class="row">
             <!-- Datatables -->
@@ -242,16 +165,17 @@
                         <th>Date</th>
                         <th>Status</th>
                         <th></th>
+                        <th></th>
                       </tr>
                     </thead>                    
                     <tbody>
-                      @foreach($approved_requests as $approved_request)
+                      @foreach($approved_requests as $track)
                       <tr>
-                        <td>{{$approved_request->requestno}}</td>
-                        <td>{{$approved_request->fullname}}</td>
+                        <td>{{$track->requestno}}</td>
+                        <td>{{$track->fullname}}</td>
                         <td>
                           <?php
-                            switch ($approved_request->unit) {
+                            switch ($track->unit) {
                               case '01':
                                 echo 'Business Analysis and IS PMO';
                                 break;
@@ -277,10 +201,13 @@
                             }
                           ?>
                         </td>
-                        <td>{{$approved_request->date}}</td>
+                        <td>{{$track->date}}</td>
                         <td>Approved / Visited</td>
                         <td>
-                          <a href="{{route('dc-admin-request-details', ['requestno' => preg_replace('/[^a-zA-Z0-9\s]/', '', $approved_request->requestno)])}}" class="btn btn-info btn-sm">Details</a>
+                          <a href="{{route('track-request', ['requestno' => preg_replace('/[^a-zA-Z0-9\s]/', '', $track->requestno)])}}" class="btn btn-outline-info btn-sm"><small>Track</small></a>
+                        </td>
+                        <td>
+                          <a href="{{route('dc-admin-request-details', ['requestno' => preg_replace('/[^a-zA-Z0-9\s]/', '', $track->requestno)])}}" class="btn btn-outline-secondary btn-sm"><small>Detail</small></a>
                         </td>
                       </tr>
                       @endforeach

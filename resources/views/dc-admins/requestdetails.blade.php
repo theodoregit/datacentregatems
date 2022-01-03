@@ -156,7 +156,7 @@
                   </div>
                   <div class="table-responsive p-3">
                     <table class="table table-bordered align-items-center table-flush table-hover" id="dataTableHover">
-                        <thead class="thead-dark">
+                        <thead class="thead-light">
                             <tr>
                                 <th>Full Name</th>
                                 <th>ID Number</th>
@@ -170,7 +170,7 @@
                                 <td>{{$approved_requests->phone_number}}</td>
                             </tr>
                         </tbody>
-                        <thead class="thead-dark">
+                        <thead class="thead-light">
                             <tr>
                                 <th>Personnels</th>
                                 <th>Impact</th>
@@ -190,7 +190,7 @@
                         </tbody>
                     </table>
                     <table class="table table-bordered align-items-center table-flush table-hover" id="dataTableHover">
-                        <thead class="thead-dark">
+                        <thead class="thead-light">
                             <tr>
                                 <th>Access Required to</th>
                                 <th>Access Time</th>
@@ -206,7 +206,7 @@
                                 <td>{{$approved_requests->location}}</td>
                             </tr>
                         </tbody>
-                        <thead class="thead-dark">
+                        <thead class="thead-light">
                             <tr>
                                 <th>Access is to begin on</th>
                                 <th>Access is to end at</th>

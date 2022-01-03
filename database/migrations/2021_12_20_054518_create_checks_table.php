@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDCAdminAuthsTable extends Migration
+class CreateChecksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateDCAdminAuthsTable extends Migration
      */
     public function up()
     {
-        Schema::create('d_c_admin_auths', function (Blueprint $table) {
+        Schema::create('checks', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('email', 250)->unique();
-            $table->string('password');
-            $table->boolean('is_active')->default(1);
-            $table->rememberToken();
+            $table->string('requestno');
+            $table->string('date');
+            $table->string('location');
+            $table->string('checkedin');
+            $table->string('checkedout');
+            $table->longText('personnels');
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ class CreateDCAdminAuthsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('d_c_admin_auths');
+        Schema::dropIfExists('checks');
     }
 }

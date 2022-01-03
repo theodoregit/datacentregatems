@@ -46,8 +46,8 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForm" aria-expanded="true"
           aria-controls="collapseForm">
-          <i class="far fa-fw fa-list-alt"></i>
-          <span>Manage User Accounts</span>
+          <i class="fa fa-wrench"></i>
+          <span>Manage Accounts</span>
         </a>
         <div id="collapseForm" class="collapse" aria-labelledby="headingForm" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">

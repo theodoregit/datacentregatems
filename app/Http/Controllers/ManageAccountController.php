@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\UnitManagerAuth;
-use App\DCManagerAuth;
-use App\InfManagerAuth;
-use App\DCAdminAuth;
+use App\User;
 
 class ManageAccountController extends Controller
 {
@@ -15,11 +12,6 @@ class ManageAccountController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     
     /**
      * Display a listing of the resource.
@@ -33,11 +25,7 @@ class ManageAccountController extends Controller
     }
 
     public function removeAccount(){
-        return view('admin.remove-account')
-                    ->with('unitsm', UnitManagerAuth::all())
-                    ->with('dcm', DCManagerAuth::all())
-                    ->with('infm', InfManagerAuth::all())
-                    ->with('dcas', DCAdminAuth::all());
+        return view('admin.remove-account')->with('user', User::all());
     }
 
 

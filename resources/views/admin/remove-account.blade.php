@@ -46,8 +46,8 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForm" aria-expanded="true"
           aria-controls="collapseForm">
-          <i class="far fa-fw fa-list-alt"></i>
-          <span>Manage User Accounts</span>
+          <i class="fa fa-wrench"></i>
+          <span>Manage Accounts</span>
         </a>
         <div id="collapseForm" class="collapse" aria-labelledby="headingForm" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
@@ -195,7 +195,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach($unitsm as $um)
+                        @foreach($user as $um)
                         <tr>
                           <td>{{$um->email}}</td>
                           <td>{{$um->name}}</td>
@@ -249,123 +249,6 @@
                                   {{csrf_field()}}
                                 <input type="text" value="unit" name="unit" style="display: none;">
                                 <input type="text" value="{{$um->email}}" name="restore_u" style="display: none;">
-                                <button type="submit" class="btn btn-outline-info btn-sm">Restore</button>
-                              </form>
-                            @endif
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal"
-                            data-target="#exampleModalScrollable" id="#modalScroll">Remove</button>
-                          </td>
-                        </tr>
-                        @endforeach
-                      </tbody>
-                      <tbody>
-                        @foreach($dcm as $dc)
-                        <tr>
-                          <td>{{$dc->email}}</td>
-                          <td>{{$dc->name}}</td>
-                          <td>Data Center Manager</td>
-                          <td>
-                            @if($dc->is_active == 1)
-                              Active
-                            @else
-                              Inactive
-                            @endif
-                          </td>
-                          <td>
-                            @if($dc->is_active == 1)
-                              <form action="{{route('admin.suspend-account')}}" method="post">
-                                  {{csrf_field()}}
-                                <input type="text" value="dc" name="unit" style="display: none;">
-                                <input type="text" value="{{$dc->email}}" name="suspend_dc" style="display: none;">
-                                <button type="submit" class="btn btn-outline-warning btn-sm">Suspend</button>
-                              </form>
-                              <!-- <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModalCenter"
-                                  id="#modalCenter">Suspend</button> -->
-                            @else
-                              <form action="{{route('admin.restore-account')}}" method="post">
-                                  {{csrf_field()}}
-                                <input type="text" value="dc" name="unit" style="display: none;">
-                                <input type="text" value="{{$dc->email}}" name="restore_dc" style="display: none;">
-                                <button type="submit" class="btn btn-outline-info btn-sm">Restore</button>
-                              </form>
-                            @endif
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal"
-                            data-target="#exampleModalScrollable" id="#modalScroll">Remove</button>
-                          </td>
-                        </tr>
-                        @endforeach
-                      </tbody>
-                      <tbody>
-                        @foreach($infm as $inf)
-                        <tr>
-                          <td>{{$inf->email}}</td>
-                          <td>{{$inf->name}}</td>
-                          <td>Infrastructure Manager</td>
-                          <td>
-                            @if($inf->is_active == 1)
-                              Active
-                            @else
-                              Inactive
-                            @endif
-                          </td>
-                          <td>
-                            @if($inf->is_active == 1)
-                              <form action="{{route('admin.suspend-account')}}" method="post">
-                                  {{csrf_field()}}
-                                <input type="text" value="inf" name="unit" style="display: none;">                                
-                                <input type="text" value="{{$inf->email}}" name="suspend_inf" style="display: none;">
-                                <button type="submit" class="btn btn-outline-warning btn-sm">Suspend</button>
-                              </form>
-                              <!-- <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModalCenter"
-                                  id="#modalCenter">Suspend</button> -->
-                            @else
-                              <form action="{{route('admin.restore-account')}}" method="post">
-                                  {{csrf_field()}}
-                                <input type="text" value="inf" name="unit" style="display: none;">
-                                <input type="text" value="{{$inf->email}}" name="restore_inf" style="display: none;">
-                                <button type="submit" class="btn btn-outline-info btn-sm">Restore</button>
-                              </form>
-                            @endif
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal"
-                            data-target="#exampleModalScrollable" id="#modalScroll">Remove</button>
-                          </td>
-                        </tr>
-                        @endforeach
-                      </tbody>
-                      <tbody>
-                        @foreach($dcas as $dca)
-                        <tr>
-                          <td>{{$dca->email}}</td>
-                          <td>{{$dca->name}}</td>
-                          <td>Data Center Admin</td>
-                          <td>
-                            @if($dca->is_active == 1)
-                              Active
-                            @else
-                              Inactive
-                            @endif
-                          </td>
-                          <td>
-                            @if($dca->is_active == 1)
-                              <form action="{{route('admin.suspend-account')}}" method="post">
-                                  {{csrf_field()}}
-                                <input type="text" value="dca" name="unit" style="display: none;">
-                                <input type="text" value="{{$dca->email}}" name="suspend_dca" style="display: none;">
-                                <button type="submit" class="btn btn-outline-warning btn-sm">Suspend</button>
-                              </form>
-                              <!-- <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModalCenter"
-                                  id="#modalCenter">Suspend</button> -->
-                            @else
-                              <form action="{{route('admin.restore-account')}}" method="post">
-                                  {{csrf_field()}}
-                                <input type="text" value="dca" name="unit" style="display: none;">
-                                <input type="text" value="{{$dca->email}}" name="restore_dca" style="display: none;">
                                 <button type="submit" class="btn btn-outline-info btn-sm">Restore</button>
                               </form>
                             @endif
